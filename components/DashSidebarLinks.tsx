@@ -1,40 +1,38 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { Compass, LayoutDashboard } from "lucide-react";
-import Link from "next/link";
+import { BarChart, Compass, LayoutDashboard, List } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React from "react";
+import SidebarItem from "./SidebarItem";
 
 const DashSidebarLinks = () => {
+  const userRoutes = [
+    { icon: Compass, label: "Browse", href: "/" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+  ];
+
+  const adminRoutes = [
+    { icon: List, label: "Courses", href: "/admin/courses" },
+    { icon: BarChart, label: "Analytics", href: "/admin/analytics" },
+  ];
+
   const pathname = usePathname();
+
+  const isAdminPage = pathname?.startsWith("/admin");
+
+  const routes = isAdminPage ? adminRoutes : userRoutes;
+
   return (
-    <>
-      <Link
-        href={"/"}
-        className={cn(
-          "flex items-center gap-3 px-4 py-4 transition hover:bg-primary/10",
-          {
-            "border-r-[4px] border-r-primary bg-primary/10": pathname === "/",
-          },
-        )}
-      >
-        <Compass className="h-5 w-5" />
-        Browse
-      </Link>
-      <Link
-        href={"/dashboard"}
-        className={cn(
-          "flex items-center gap-3 px-4 py-4 transition hover:bg-primary/10",
-          {
-            "border-r-[4px] border-r-primary bg-primary/10":
-              pathname === "/dashboard",
-          },
-        )}
-      >
-        <LayoutDashboard className="h-5 w-5" /> Dashboard
-      </Link>
-    </>
+    <div className="flex flex-col gap-1">
+      {routes.map((route, i) => (
+        <SidebarItem
+          href={route.href}
+          icon={route.icon}
+          label={route.label}
+          key={i}
+        />
+      ))}
+    </div>
   );
 };
 

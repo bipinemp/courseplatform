@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import UserDashboardSidebar from "@/components/DashboardSidebar";
 import Navbar from "@/components/Navbar";
-import UserDashboardSidebar from "@/components/UserDashboardSidebar";
-import Home from "@/components/Home";
+import HomePage from "@/components/Home";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,8 +30,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Home />
-          <main className="h-full pt-[120px] md:pl-64">{children}</main>
+          <HomePage />
+          {children}
         </ThemeProvider>
       </body>
     </html>

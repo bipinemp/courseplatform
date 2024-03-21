@@ -4,10 +4,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BookOpen, Settings, ShieldCheck, User } from "lucide-react";
+import { BookOpen, Settings, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -52,18 +51,6 @@ const ProfileDropDown = () => {
           >
             <BookOpen className="mr-2 h-[1.2rem] w-[1.2rem]" />
             <span>Enrolled Courses</span>
-          </Link>
-        </DropdownMenuItem>
-
-        <DropdownMenuSeparator className="bg-gray-400" />
-
-        <DropdownMenuItem>
-          <Link
-            href={"/admin_dashboard"}
-            className="flex w-full items-center gap-1 px-2 text-lg font-semibold text-primary"
-          >
-            <ShieldCheck className="mr-2 h-[1.2rem] w-[1.2rem]" />
-            <span>Admin Dashboard</span>
           </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>

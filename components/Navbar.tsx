@@ -1,7 +1,10 @@
+import Link from "next/link";
 import { DarkLightMode } from "./DarkLightMode";
 import ProfileDropDown from "./ProfileDropDown";
 import Search from "./Search";
 import AdminMode from "./admin/AdminMode";
+
+import { Button } from "./ui/button";
 
 const Navbar = () => {
   return (
@@ -10,6 +13,9 @@ const Navbar = () => {
         <Search />
       </div>
       <div className="flex items-center gap-7">
+        <Link href={"/auth/login"}>
+          <Button>Login</Button>
+        </Link>
         <AdminMode />
         <ProfileDropDown />
         <DarkLightMode />
