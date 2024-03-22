@@ -9,6 +9,7 @@ import { User, UserRole } from "@prisma/client";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
+
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -45,14 +46,15 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+
   callbacks: {
     async session({ token, session }) {
       if (token.sub && session.user) {
-        session.user.id = token.sub;
+        session.id = token.sub;
       }
 
       if (token.role && session.user) {
-        session.user.role = token.role as UserRole;
+        session.role = token.role as UserRole;
       }
 
       return session;
@@ -69,8 +71,11 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
   },
+  pages: {
+    signIn: "/login",
+  },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === "development",
+  // debug: process.env.NODE_ENV === "development",
 };
 
 const handler = NextAuth(authOptions);

@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import HomePage from "@/components/Home";
 import SessionProvider from "@/providers/SessionProvider";
 import { getServerSession } from "next-auth";
+import QueryProvider from "@/providers/QueryProvider";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -12,7 +14,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Course Platform",
+  title: "Coursify",
   description: "Developed By Bipin Bhandari",
 };
 
@@ -25,17 +27,20 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <SessionProvider session={session}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <HomePage />
-            {children}
-          </ThemeProvider>
-        </SessionProvider>
+        <QueryProvider>
+          <SessionProvider session={session}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Toaster position="top-center" reverseOrder={true} />
+              <HomePage />
+              {children}
+            </ThemeProvider>
+          </SessionProvider>
+        </QueryProvider>
       </body>
     </html>
   );

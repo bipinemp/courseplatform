@@ -4,9 +4,20 @@ import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { LogOut } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 const AdminMode = () => {
+  const session = useSession();
   const pathname = usePathname();
+
+  if (!Boolean(session.data?.user)) {
+    return;
+  }
+
+  if (session.data?.role !== "ADMIN") {
+    return;
+  }
+
   const isAdminRoute = pathname?.startsWith("/admin");
 
   return (

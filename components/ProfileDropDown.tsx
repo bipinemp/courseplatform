@@ -1,5 +1,3 @@
-"use client";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,20 +5,33 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BookOpen, Settings, User } from "lucide-react";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
+import LogOutBtn from "./LogOutBtn";
 
-const ProfileDropDown = () => {
+const ProfileDropDown = async () => {
+  const session = await getServerSession();
+  if (!Boolean(session?.user)) {
+    return;
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="relative h-[40px] w-[40px] cursor-pointer">
-          <Image
-            fill
-            src="https://github.com/shadcn.png"
-            alt=""
-            className="h-[40px] w-[40px] rounded-full bg-gray-400"
-          />
+          {session?.user?.image ? (
+            <Image
+              fill
+              src={session.user.image}
+              alt=""
+              className="h-[40px] w-[40px] rounded-full bg-gray-400"
+            />
+          ) : (
+            <span className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-destructive text-2xl text-zinc-50">
+              {session?.user?.name?.charAt(0)}
+            </span>
+          )}
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[220px">
@@ -52,6 +63,9 @@ const ProfileDropDown = () => {
             <BookOpen className="mr-2 h-[1.2rem] w-[1.2rem]" />
             <span>Enrolled Courses</span>
           </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="hover:bg-none">
+          <LogOutBtn />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

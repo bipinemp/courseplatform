@@ -1,7 +1,21 @@
-import type { NextRequest } from "next/server";
+import { NextRequestWithAuth, withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
 
-export async function middleware(req: NextRequest) {}
+export default withAuth(
+  function middleware(req: NextRequestWithAuth) {
+    if (
+      req.nextUrl.pathname.startsWith("/admin") &&
+      req.nextauth.token?.role !== "ADMIN"
+    ) {
+      console.log("denied");
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+  },
+  {
+    callbacks: {
+      authorized: ({ token }) => !!token,
+    },
+  },
+);
 
-export const config = {
-  matcher: ["/auth/login"],
-};
+export const config = { matcher: ["/admin/:path*", "/dashboard"] };

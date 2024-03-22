@@ -5,6 +5,7 @@ import Search from "./Search";
 import AdminMode from "./admin/AdminMode";
 
 import { Button } from "./ui/button";
+import LoginBtn from "./LoginBtn";
 
 const Navbar = () => {
   return (
@@ -13,9 +14,7 @@ const Navbar = () => {
         <Search />
       </div>
       <div className="flex items-center gap-7">
-        <Link href={"/auth/login"}>
-          <Button>Login</Button>
-        </Link>
+        <LoginBtn />
         <AdminMode />
         <ProfileDropDown />
         <DarkLightMode />

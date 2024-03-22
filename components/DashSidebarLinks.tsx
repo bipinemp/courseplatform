@@ -2,8 +2,8 @@
 
 import { BarChart, Compass, LayoutDashboard, List } from "lucide-react";
 import { usePathname } from "next/navigation";
-import React from "react";
-import SidebarItem from "./SidebarItem";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const DashSidebarLinks = () => {
   const userRoutes = [
@@ -25,12 +25,20 @@ const DashSidebarLinks = () => {
   return (
     <div className="flex flex-col gap-1">
       {routes.map((route, i) => (
-        <SidebarItem
-          href={route.href}
-          icon={route.icon}
-          label={route.label}
+        <Link
           key={i}
-        />
+          href={route.href}
+          className={cn(
+            "flex items-center gap-3 px-4 py-4 transition hover:bg-primary/10",
+            {
+              "border-r-[4px] border-r-primary bg-primary/10":
+                pathname === route.href,
+            },
+          )}
+        >
+          <route.icon className="h-5 w-5" />
+          {route.label}
+        </Link>
       ))}
     </div>
   );
