@@ -28,7 +28,7 @@ const ProfileDropDown = async () => {
               className="h-[40px] w-[40px] rounded-full bg-gray-400"
             />
           ) : (
-            <span className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-destructive text-2xl text-zinc-50">
+            <span className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-primary text-2xl text-zinc-50">
               {session?.user?.name?.charAt(0)}
             </span>
           )}

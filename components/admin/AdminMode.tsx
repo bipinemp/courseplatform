@@ -26,7 +26,7 @@ const AdminMode = () => {
         <Link href={"/"}>
           <Button
             className="flex items-center gap-2 font-semibold"
-            variant={"destructive"}
+            variant={"secondary"}
           >
             <LogOut className="h-4 w-4" strokeWidth={3} /> Exit
           </Button>

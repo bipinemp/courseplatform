@@ -71,18 +71,17 @@ model course {
 }
 
 model question {
-  id            String @id @default(uuid())
-  title         String @unique
-  answerOptions Json   @map("answer_options")
+  id            String    @id @default(uuid())
+  title         String    @unique
+  correctAnswer String    @map("correct_answer")
+  answers       answers[]
 
-  course   course    @relation(fields: [courseId], references: [id])
-  courseId String    @map("course_id")
-  answers  answers[]
+  course   course @relation(fields: [courseId], references: [id])
+  courseId String @map("course_id")
 }
 
 model answers {
-  id String @id @default(uuid())
-
+  id         String   @id @default(uuid())
   title      String
   question   question @relation(fields: [questionId], references: [id])
   questionId String   @map("question_id")
