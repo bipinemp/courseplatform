@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllCourses } from "@/apis/apis";
 
 const CoursesList = () => {
-  const { data, isPending } = useQuery({
+  const { data, isPending } = useQuery<Course[] | []>({
     queryKey: ["courseslist"],
     queryFn: getAllCourses,
   });
@@ -31,7 +31,7 @@ const CoursesList = () => {
       </div>
       <div className="flex flex-col gap-5">
         <h1>Courses List</h1>
-        <DataTable columns={columns} data={data?.courses} />
+        <DataTable columns={columns} data={data || []} />
       </div>
     </section>
   );

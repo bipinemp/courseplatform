@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
 
   const session = await getServerSession(authOptions);
 
-  if (Boolean(session?.user) && session?.role !== "ADMIN") {
+  if (!Boolean(session?.user) && session?.role !== "ADMIN") {
     return NextResponse.json({ message: "Access Denied" }, { status: 401 });
   }
 

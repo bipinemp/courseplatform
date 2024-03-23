@@ -19,8 +19,14 @@ const DashSidebarLinks = () => {
   const pathname = usePathname();
 
   const isAdminPage = pathname?.startsWith("/admin");
+  const parts = pathname?.split("/");
+  const isCoursePage = parts?.length === 3 && parts[1] === "courses";
 
-  const routes = isAdminPage ? adminRoutes : userRoutes;
+  const routes = isAdminPage
+    ? adminRoutes
+    : isCoursePage
+      ? userRoutes
+      : userRoutes;
 
   return (
     <div className="flex flex-col gap-1">

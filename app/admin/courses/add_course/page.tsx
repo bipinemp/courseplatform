@@ -21,17 +21,13 @@ import NestedArray from "./_components/NestedArray";
 import InputBox from "./_components/InputBox";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { cn } from "@/lib/utils";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useMutation,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCourse } from "@/apis/apis";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
 const Page = () => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const {
     register,
     control,

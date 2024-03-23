@@ -31,6 +31,33 @@ export const getAllCourses = async () => {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses`,
     );
+    return response.data.courses;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getCourseDetails = async (id: string) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${id}`,
+    );
+    return response.data.course;
+  } catch (error) {
+    return error;
+  }
+};
+
+interface ProgressInput {
+  questionId: string;
+  courseId: string;
+}
+export const setProgress = async (data: ProgressInput) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/progress`,
+      data,
+    );
     return response.data;
   } catch (error) {
     return error;
