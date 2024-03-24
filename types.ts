@@ -22,6 +22,7 @@ type Course = {
 type CourseDetails = {
   id: string;
   title: string;
+  description: string;
   price: number;
   question: Question[];
   progress: Progress[];
@@ -47,6 +48,10 @@ type Progress = {
   questionId?: string;
 };
 
+type Enrollment = {
+  course: Course;
+};
+
 enum UserRole {
   ADMIN,
   USER,
@@ -62,4 +67,5 @@ type UserDetail = {
   createdAt: string;
   updatedAt: string;
   completedCourses: CompletedCourse[];
+  enrollment: Enrollment[];
 };

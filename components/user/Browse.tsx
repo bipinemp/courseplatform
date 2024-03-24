@@ -57,7 +57,7 @@ const Browse = ({ isDashboard }: BrowseProps) => {
           )}
         </div>
       )}
-      <CoursesList />
+      <CoursesList isDashboard={isDashboard} />
     </div>
   );
 };

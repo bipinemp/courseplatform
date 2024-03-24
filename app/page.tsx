@@ -4,7 +4,7 @@ import Browse from "@/components/user/Browse";
 export default function Home() {
   return (
     <Container>
-      <Browse />
+      <Browse isDashboard={false} />
     </Container>
   );
 }

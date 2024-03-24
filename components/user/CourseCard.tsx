@@ -21,12 +21,22 @@ const CourseCard = ({ data }: Props) => {
   const { data: UserDetail } = useGetUserDetails();
 
   const [courseDetails, setCourseDetails] = useState<CompletedCourse>();
+  const [isCoursePurchased, setIsCoursePurchased] = useState<boolean>(
+    UserDetail?.enrollment.some(
+      (enrollment) => enrollment.course.id === data?.id,
+    ) || false,
+  );
 
   useEffect(() => {
     const updatedCourseDetails = UserDetail?.completedCourses?.find(
       (course) => course.courseId === id,
     );
     setCourseDetails(updatedCourseDetails);
+
+    const isPurchased = UserDetail?.enrollment.some(
+      (enrollment) => enrollment.course.id === data?.id,
+    );
+    setIsCoursePurchased(isPurchased || false);
   }, [data, UserDetail]);
 
   const formattedPrice = new Intl.NumberFormat("np", {
@@ -59,6 +69,16 @@ const CourseCard = ({ data }: Props) => {
       <p className="font-semibold text-gray-600">{formattedPrice}</p>
 
       <p className="text-gray-600">{formattedDescription}</p>
+      {isCoursePurchased && !courseDetails?.percentage && (
+        <div className="flex flex-col gap-2 font-semibold text-blue-500">
+          <Progress
+            value={0}
+            className="h-[10px]"
+            indicatorColor="bg-blue-500"
+          />
+          <p className="pl-1">0% Completed</p>
+        </div>
+      )}
       {courseDetails?.percentage && (
         <div
           className={cn("flex flex-col gap-2 font-semibold", {

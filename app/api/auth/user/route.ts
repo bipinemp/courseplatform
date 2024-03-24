@@ -20,6 +20,11 @@ export async function GET() {
         createdAt: true,
         updatedAt: true,
         completedCourses: true,
+        enrollment: {
+          select: {
+            course: true,
+          },
+        },
       },
     });
 

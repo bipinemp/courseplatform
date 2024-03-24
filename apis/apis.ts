@@ -74,3 +74,15 @@ export const getUserDetails = async () => {
     return error;
   }
 };
+
+export const setCourseEnrollment = async (courseId: string) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/enroll`,
+      { courseId },
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
