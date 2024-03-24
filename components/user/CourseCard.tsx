@@ -18,7 +18,7 @@ const CourseCard = ({ data }: Props) => {
 
   const router = useRouter();
 
-  const { data: UserDetail } = useGetUserDetails();
+  const { data: UserDetail } = useGetUserDetails(true);
 
   const [courseDetails, setCourseDetails] = useState<CompletedCourse>();
   const [isCoursePurchased, setIsCoursePurchased] = useState<boolean>(
@@ -52,7 +52,7 @@ const CourseCard = ({ data }: Props) => {
   return (
     <div
       onClick={() => router.push(`/courses/${id}`)}
-      className="flex w-[320px] cursor-pointer flex-col gap-5 rounded-md border border-input px-5 py-4 shadow-md transition hover:border-primary hover:bg-zinc-100"
+      className="flex min-h-[190px] w-[320px] cursor-pointer flex-col gap-5 rounded-md border border-input px-5 py-4 shadow-md transition hover:border-primary hover:bg-zinc-100"
     >
       <h2 className="font-semibold text-gray-700 underline underline-offset-4">
         {title}

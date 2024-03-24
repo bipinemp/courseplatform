@@ -13,10 +13,11 @@ export const useGetCourseDetails = (id: string) => {
   return { data, isPending };
 };
 
-export const useGetUserDetails = () => {
+export const useGetUserDetails = (isDashboard: boolean) => {
   const { data, isPending } = useQuery<UserDetail>({
     queryKey: ["userDetail"],
     queryFn: getUserDetails,
+    enabled: isDashboard,
   });
 
   return { data, isPending };

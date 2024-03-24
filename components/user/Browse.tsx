@@ -9,7 +9,7 @@ interface BrowseProps {
 }
 
 const Browse = ({ isDashboard }: BrowseProps) => {
-  const { data, isPending } = useGetUserDetails();
+  const { data, isPending } = useGetUserDetails(true);
 
   const progressCourses = data?.completedCourses.filter(
     (course) => parseInt(course.percentage) < 100,
@@ -24,7 +24,7 @@ const Browse = ({ isDashboard }: BrowseProps) => {
       {isDashboard && (
         <div className="flex items-center gap-10">
           {progressCourses && (
-            <div className="flex w-[250px] items-center gap-3 rounded-md border border-input py-3 pl-2 shadow">
+            <div className="flex min-h-[85px] w-[270px] items-center gap-3 rounded-md border border-input py-3 pl-2 shadow">
               <span className="rounded-full bg-blue-500/20 p-2">
                 <Clock className="h-9 w-9 text-blue-500" strokeWidth={3} />
               </span>
@@ -39,7 +39,7 @@ const Browse = ({ isDashboard }: BrowseProps) => {
           )}
 
           {completedCourses && (
-            <div className="flex w-[250px] items-center gap-3 rounded-md border border-input py-3 pl-2 shadow">
+            <div className="flex min-h-[85px] w-[270px] items-center gap-3 rounded-md border border-input py-3 pl-2 shadow">
               <span className="rounded-full bg-primary/20 p-2">
                 <CircleCheckBig
                   className="h-9 w-9 text-primary"

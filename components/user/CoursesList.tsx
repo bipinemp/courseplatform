@@ -5,6 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import CourseCard from "./CourseCard";
 import { useGetUserDetails } from "@/apis/queries";
+import UserBrowseLoading from "../UserBrowseLoading";
+import UserDashboardLoading from "../UserDashboardLoading";
 
 interface CourseListProps {
   isDashboard?: boolean;
@@ -17,7 +19,11 @@ const CoursesList = ({ isDashboard }: CourseListProps) => {
   });
 
   const { data: UserDetail, isPending: DashBoardListPending } =
-    useGetUserDetails();
+    useGetUserDetails(isDashboard || false);
+
+  if (isDashboard ? DashBoardListPending : isPending) {
+    return isDashboard ? <UserDashboardLoading /> : <UserBrowseLoading />;
+  }
 
   return (
     <div className="flex flex-wrap gap-4">
