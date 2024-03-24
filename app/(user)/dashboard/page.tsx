@@ -1,12 +1,11 @@
 import Container from "@/components/Container";
+import Browse from "@/components/user/Browse";
 import React from "react";
 
 const page = () => {
   return (
     <Container>
-      <div className="pl-52 pt-32">
-        <h1>Dashboard</h1>
-      </div>
+      <Browse isDashboard={true} />
     </Container>
   );
 };

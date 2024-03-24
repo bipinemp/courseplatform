@@ -4,6 +4,13 @@ type TRegister = {
   password: string;
 };
 
+type CompletedCourse = {
+  courseId: string;
+  id: string;
+  userId: string;
+  percentage: string;
+};
+
 type Course = {
   id: string;
   title: string;
@@ -14,6 +21,7 @@ type Course = {
 
 type CourseDetails = {
   id: string;
+  title: string;
   price: number;
   question: Question[];
   progress: Progress[];
@@ -37,4 +45,21 @@ type Progress = {
   userId?: string;
   courseId?: string;
   questionId?: string;
+};
+
+enum UserRole {
+  ADMIN,
+  USER,
+}
+type UserDetail = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  image: string | null;
+  role: UserRole;
+  emailVerified: string | null;
+  createdAt: string;
+  updatedAt: string;
+  completedCourses: CompletedCourse[];
 };

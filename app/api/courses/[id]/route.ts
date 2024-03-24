@@ -18,6 +18,7 @@ export async function GET(
       where: { id },
       select: {
         id: true,
+        title: true,
         price: true,
         progress: true,
         question: {

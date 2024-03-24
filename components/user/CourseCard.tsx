@@ -2,15 +2,32 @@
 
 import { BookOpen } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Progress } from "../ui/progress";
+import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { getUserDetails } from "@/apis/apis";
+import { useQuery } from "@tanstack/react-query";
+import { useGetUserDetails } from "@/apis/queries";
 
 interface Props {
   data: Course;
 }
 
-const CourseCard = ({
-  data: { id, price, description, questionsCount, title },
-}: Props) => {
+const CourseCard = ({ data }: Props) => {
+  const { id, price, description, questionsCount, title } = data;
+
   const router = useRouter();
+
+  const { data: UserDetail } = useGetUserDetails();
+
+  const [courseDetails, setCourseDetails] = useState<CompletedCourse>();
+
+  useEffect(() => {
+    const updatedCourseDetails = UserDetail?.completedCourses?.find(
+      (course) => course.courseId === id,
+    );
+    setCourseDetails(updatedCourseDetails);
+  }, [data, UserDetail]);
 
   const formattedPrice = new Intl.NumberFormat("np", {
     style: "currency",
@@ -25,13 +42,15 @@ const CourseCard = ({
   return (
     <div
       onClick={() => router.push(`/courses/${id}`)}
-      className="flex w-[320px] cursor-pointer flex-col gap-3 rounded-md border border-input px-5 py-4 shadow-md transition hover:border-primary hover:bg-zinc-100"
+      className="flex w-[320px] cursor-pointer flex-col gap-5 rounded-md border border-input px-5 py-4 shadow-md transition hover:border-primary hover:bg-zinc-100"
     >
       <h2 className="font-semibold text-gray-700 underline underline-offset-4">
         {title}
       </h2>
       <div className="flex items-center gap-2 text-gray-700">
-        <BookOpen className="h-5 w-5" />
+        <span className="rounded-full bg-primary/20 p-2">
+          <BookOpen className="h-5 w-5" />
+        </span>
         <p>
           {questionsCount} {questionsCount > 1 ? "Questions" : "Question"}
         </p>
@@ -40,6 +59,28 @@ const CourseCard = ({
       <p className="font-semibold text-gray-600">{formattedPrice}</p>
 
       <p className="text-gray-600">{formattedDescription}</p>
+      {courseDetails?.percentage && (
+        <div
+          className={cn("flex flex-col gap-2 font-semibold", {
+            "text-blue-500": courseDetails?.percentage !== "100",
+            "text-green-500": courseDetails?.percentage === "100",
+          })}
+        >
+          <Progress
+            value={parseInt(courseDetails?.percentage)}
+            className="h-[10px]"
+            indicatorColor={cn("", {
+              "bg-blue-500": courseDetails?.percentage !== "100",
+              "bg-green-500": courseDetails?.percentage === "100",
+            })}
+          />
+          <p className="pl-1">
+            {courseDetails?.percentage === "100%"
+              ? "100% completed"
+              : `${courseDetails?.percentage}% completed`}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

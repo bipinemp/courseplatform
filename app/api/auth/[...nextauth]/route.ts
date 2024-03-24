@@ -5,7 +5,27 @@ import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "@/lib/prismadb";
 import { getUserById } from "@/actions/user";
-import { User, UserRole } from "@prisma/client";
+import { UserRole } from "@prisma/client";
+
+type CompletedCourse = {
+  id: string;
+  courseId: string;
+  percentage: string;
+  userId: string;
+};
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  image: string | null;
+  role: UserRole;
+  emailVerified: boolean | null;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+  completedCourses: CompletedCourse[];
+};
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -57,6 +77,10 @@ export const authOptions: NextAuthOptions = {
         session.role = token.role as UserRole;
       }
 
+      if (token.completedCourses) {
+        session.completedCourses = token.completedCourses;
+      }
+
       return session;
     },
     async jwt({ token }) {
@@ -67,6 +91,7 @@ export const authOptions: NextAuthOptions = {
       if (!existingUser) return token;
 
       token.role = existingUser.role;
+      token.completedCourses = existingUser.completedCourses;
 
       return token;
     },

@@ -63,3 +63,14 @@ export const setProgress = async (data: ProgressInput) => {
     return error;
   }
 };
+
+export const getUserDetails = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/user`,
+    );
+    return response.data.userDetails;
+  } catch (error) {
+    return error;
+  }
+};

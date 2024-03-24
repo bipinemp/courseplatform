@@ -12,6 +12,7 @@ import LogOutBtn from "./LogOutBtn";
 
 const ProfileDropDown = async () => {
   const session = await getServerSession();
+
   if (!Boolean(session?.user)) {
     return;
   }

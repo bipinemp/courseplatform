@@ -59,6 +59,18 @@ model User {
   sessions      Session[]
   enrollment    enrollment[]
   progress      progress[]
+
+  completedCourses completedCourses[]
+}
+
+model completedCourses {
+  id String @id @default(uuid())
+
+  courseId   String
+  percentage String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
 
 model course {
