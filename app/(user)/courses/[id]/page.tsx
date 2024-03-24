@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Confetti from "react-confetti";
 import { cn } from "@/lib/utils";
+import CourseDetailLoading from "@/components/CourseDetailLoading";
 
 interface Props {
   params: { id: string | undefined };
@@ -18,7 +19,7 @@ interface Props {
 const Page = ({ params: { id } }: Props) => {
   const queryClient = useQueryClient();
   const { data, isPending } = useGetCourseDetails(id || "");
-  const { data: UserDetail } = useGetUserDetails();
+  const { data: UserDetail } = useGetUserDetails(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState<Boolean[]>([]);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -130,7 +131,7 @@ const Page = ({ params: { id } }: Props) => {
   };
 
   if (isPending) {
-    return <h1>Loading...</h1>;
+    return <CourseDetailLoading />;
   }
 
   let content: React.ReactNode;
