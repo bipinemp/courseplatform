@@ -11,12 +11,14 @@ import toast from "react-hot-toast";
 import Confetti from "react-confetti";
 import { cn } from "@/lib/utils";
 import CourseDetailLoading from "@/components/CourseDetailLoading";
+import { useRouter } from "next/navigation";
 
 interface Props {
   params: { id: string | undefined };
 }
 
 const Page = ({ params: { id } }: Props) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { data, isPending } = useGetCourseDetails(id || "");
   const { data: UserDetail } = useGetUserDetails(true);
@@ -83,15 +85,21 @@ const Page = ({ params: { id } }: Props) => {
 
   const { mutate: EnrollCourse, isPending: Enrolling } = useMutation({
     mutationFn: setCourseEnrollment,
-    onSuccess: () => {
-      toast.success("Course Enrolled Successfully");
+    onSuccess(response: any) {
+      router.push(response.data.payment_url);
       queryClient.invalidateQueries({ queryKey: ["cousedetails", data?.id] });
       queryClient.invalidateQueries({ queryKey: ["userDetail"] });
     },
+
     onError(error: Error) {
       toast.error(error?.message);
     },
   });
+
+  const handleCoursePayment = (name: string, price: number, id: string) => {
+    const data = { name, price, id };
+    EnrollCourse(data);
+  };
 
   const handleAnswerSubmit = (
     questionId: string,
@@ -217,17 +225,21 @@ const Page = ({ params: { id } }: Props) => {
           <span className="w-fit rounded-full bg-destructive/20 p-3 text-destructive">
             <ShieldAlert className="h-20 w-20" />
           </span>
-          <h1 className="font-black text-gray-500">
+          <h1 className="font-black opacity-85">
             Purchase this course to view the content
           </h1>
           <div className="flex flex-col items-center rounded-md border border-input px-4 py-3 shadow">
-            <h2 className="font-semibold text-gray-700">{data?.title}</h2>
-            <p className="text-gray-600">{data?.description}</p>
+            <h2 className="font-semibold">{data?.title}</h2>
+            <p className="opacity-80">{data?.description}</p>
           </div>
           <Button
-            onClick={() => {
-              EnrollCourse(data?.id || "");
-            }}
+            onClick={() =>
+              handleCoursePayment(
+                data?.title || "",
+                data?.price || 0,
+                data?.id || "",
+              )
+            }
             className="w-fit py-7 text-2xl"
             size={"lg"}
           >

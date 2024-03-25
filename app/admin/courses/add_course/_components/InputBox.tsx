@@ -43,7 +43,7 @@ const InputBox = ({
       />
       {label && (
         <span
-          className={cn("text-xs text-gray-500", {
+          className={cn("text-xs opacity-80", {
             hidden: error !== "",
           })}
         >

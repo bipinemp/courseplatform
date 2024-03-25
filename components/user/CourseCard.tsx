@@ -14,9 +14,8 @@ interface Props {
 }
 
 const CourseCard = ({ data }: Props) => {
-  const { id, price, description, questionsCount, title } = data;
-
   const router = useRouter();
+  const { id, price, description, questionsCount, title } = data;
 
   const { data: UserDetail } = useGetUserDetails(true);
 
@@ -52,12 +51,10 @@ const CourseCard = ({ data }: Props) => {
   return (
     <div
       onClick={() => router.push(`/courses/${id}`)}
-      className="flex min-h-[190px] w-[320px] cursor-pointer flex-col gap-5 rounded-md border border-input px-5 py-4 shadow-md transition hover:border-primary hover:bg-zinc-100"
+      className="flex min-h-[190px] w-[320px] cursor-pointer flex-col gap-5 rounded-md border border-input px-5 py-4 shadow-md transition hover:border-primary hover:bg-zinc-100 dark:hover:bg-neutral-800"
     >
-      <h2 className="font-semibold text-gray-700 underline underline-offset-4">
-        {title}
-      </h2>
-      <div className="flex items-center gap-2 text-gray-700">
+      <h2 className="font-semibold underline underline-offset-4">{title}</h2>
+      <div className="flex items-center gap-2">
         <span className="rounded-full bg-primary/20 p-2">
           <BookOpen className="h-5 w-5" />
         </span>
@@ -66,9 +63,9 @@ const CourseCard = ({ data }: Props) => {
         </p>
       </div>
 
-      <p className="font-semibold text-gray-600">{formattedPrice}</p>
+      <p className="font-semibold">{formattedPrice}</p>
 
-      <p className="text-gray-600">{formattedDescription}</p>
+      <p className="opacity-80">{formattedDescription}</p>
       {isCoursePurchased && !courseDetails?.percentage && (
         <div className="flex flex-col gap-2 font-semibold text-blue-500">
           <Progress

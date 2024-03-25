@@ -1,6 +1,5 @@
 import Container from "@/components/Container";
 import CoursesList from "@/components/admin/CoursesList";
-import React from "react";
 
 const page = () => {
   return (

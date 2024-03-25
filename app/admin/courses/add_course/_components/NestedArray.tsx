@@ -50,7 +50,7 @@ const NestedArray = ({
         <div className="flex flex-col gap-4" key={field.id}>
           <div className="flex w-full items-center gap-2">
             <p
-              className={cn("w-[110px] font-semibold text-gray-700", {
+              className={cn("w-[110px] font-semibold", {
                 "w-[140px]": index + 1 > 1,
               })}
             >

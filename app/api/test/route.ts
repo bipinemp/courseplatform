@@ -5,6 +5,5 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
-  const userDetails = await db.user.findUnique({ where: { id: session?.id } });
-  return NextResponse.json({ userDetails });
+  return NextResponse.json(!!session?.user);
 }

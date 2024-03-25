@@ -61,6 +61,7 @@ model User {
   progress      progress[]
 
   completedCourses completedCourses[]
+  transaction      transaction[]
 }
 
 model completedCourses {
@@ -74,14 +75,15 @@ model completedCourses {
 }
 
 model course {
-  id             String       @id @default(uuid())
-  title          String       @unique
+  id             String        @id @default(uuid())
+  title          String        @unique
   description    String
   price          Int
-  questionsCount Int          @map("questions_count")
+  questionsCount Int           @map("questions_count")
   question       question[]
   enrollment     enrollment[]
   progress       progress[]
+  transaction    transaction[]
 }
 
 model question {
@@ -121,4 +123,27 @@ model enrollment {
 
   course   course @relation(fields: [courseId], references: [id])
   courseId String @map("course_id")
+}
+
+enum Status {
+  CREATED
+  PAID
+  FAILED
+}
+
+model transaction {
+  id String @id @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
+
+  course   course @relation(fields: [courseId], references: [id])
+  courseId String @map("course_id")
+
+  amount          String
+  status          Status @default(CREATED)
+  transactionCode String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
 }

@@ -26,6 +26,20 @@ export const createCourse = async (data: TCourse) => {
   }
 };
 
+export const updateCourse = async (data: any) => {
+  try {
+    const { id, ...dataWithoutId } = data;
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/edit/${id}`,
+      dataWithoutId,
+    );
+    console.log("res: ", response);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getAllCourses = async () => {
   try {
     const response = await axios.get(
@@ -75,13 +89,19 @@ export const getUserDetails = async () => {
   }
 };
 
-export const setCourseEnrollment = async (courseId: string) => {
+interface CourseEnrollmentProps {
+  name: string;
+  price: number;
+  id: string;
+}
+
+export const setCourseEnrollment = async (data: CourseEnrollmentProps) => {
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/enroll`,
-      { courseId },
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/orders/create`,
+      data,
     );
-    return response;
+    return response.data;
   } catch (error) {
     return error;
   }

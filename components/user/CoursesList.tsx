@@ -25,6 +25,12 @@ const CoursesList = ({ isDashboard }: CourseListProps) => {
     return isDashboard ? <UserDashboardLoading /> : <UserBrowseLoading />;
   }
 
+  if (data?.length === 0) {
+    return (
+      <h1 className="font-semibold text-destructive">No Courses Available</h1>
+    );
+  }
+
   return (
     <div className="flex flex-wrap gap-4">
       {isDashboard ? (

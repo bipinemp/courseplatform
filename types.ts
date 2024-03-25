@@ -19,11 +19,22 @@ type Course = {
   questionsCount: number;
 };
 
+type EditCourseDetails = {
+  id: string;
+  title: string;
+  description: string;
+  price: string;
+  questionsCount: string;
+  questions: Question[];
+  progress: Progress[];
+};
+
 type CourseDetails = {
   id: string;
   title: string;
   description: string;
   price: number;
+  questionsCount: number;
   question: Question[];
   progress: Progress[];
 };

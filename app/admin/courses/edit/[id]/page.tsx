@@ -5,6 +5,7 @@ import {
   ChevronLeft,
   ChevronRight,
   CircleX,
+  Edit,
   LayoutDashboard,
   ListChecks,
   Loader2,
@@ -15,23 +16,35 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CourseSchema, TCourse } from "@/schemas/courseType";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import NestedArray from "./_components/NestedArray";
-import InputBox from "./_components/InputBox";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCourse } from "@/apis/apis";
+import { createCourse, updateCourse } from "@/apis/apis";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import InputBox from "../../add_course/_components/InputBox";
+import NestedArray from "../../add_course/_components/NestedArray";
+import { useGetCourseDetails } from "@/apis/queries";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-const Page = () => {
+interface Props {
+  params: { id: string | undefined };
+}
+
+const Page = ({ params: { id } }: Props) => {
   const queryClient = useQueryClient();
+  const router = useRouter();
+
+  const { data, isPending: Loading } = useGetCourseDetails(id || "");
+
   const {
     register,
     control,
     handleSubmit,
     getValues,
-    reset,
+
+    setValue,
     formState: { errors },
   } = useForm<TCourse>({
     resolver: zodResolver(CourseSchema),
@@ -39,8 +52,8 @@ const Page = () => {
       title: "",
       description: "",
       price: "",
-      questions: [{ title: "", answers: [{ title: "" }], correctAnswer: "" }],
       questionsCount: "",
+      questions: [{ title: "", answers: [{ title: "" }], correctAnswer: "" }],
     },
   });
 
@@ -50,28 +63,47 @@ const Page = () => {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: createCourse,
+    mutationFn: updateCourse,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["courseslist"] });
-      toast.success("Course Created Successfully");
-
-      reset();
+      toast.success("Course Edited Successfully");
+      router.push("/admin/courses");
     },
+
     onError(error) {
       toast.error(error.message);
     },
   });
 
   const onSubmit = async () => {
-    mutate(getValues());
+    const updatedData = {
+      id: data?.id,
+      ...getValues(),
+    };
+
+    mutate(updatedData);
   };
+
+  useEffect(() => {
+    if (data) {
+      setValue("title", data?.title);
+      setValue("description", data?.description);
+      setValue("price", data?.price.toString());
+      setValue("questionsCount", data?.questionsCount.toString());
+      setValue("questions", data?.question as any);
+    }
+  }, [data, setValue]);
+
+  if (!data && Loading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <Container>
       <div className="mb-20 flex flex-col gap-16 pl-52 pt-32">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <h1 className="font-bold opacity-90">Course setup</h1>
+            <h1 className="font-bold opacity-90">Course Edit</h1>
             <p className="italic opacity-80">Complete all Fields</p>
           </div>
           <Link href={"/admin/courses"} className="flex items-center gap-2">
@@ -90,7 +122,7 @@ const Page = () => {
             <div className="flex w-full flex-col gap-6">
               <h3 className="flex items-center gap-2 font-semibold">
                 <LayoutDashboard className="h-11 w-11 rounded-lg bg-primary/10 p-2" />
-                Customize your course
+                Edit course details
               </h3>
 
               <div className="flex flex-col gap-6 rounded border bg-zinc-50 px-6 py-8 shadow dark:bg-neutral-900">
@@ -139,7 +171,7 @@ const Page = () => {
             <div className="flex w-full flex-col gap-6">
               <h3 className="flex items-center gap-3 font-semibold">
                 <ListChecks className="h-11 w-11 rounded-lg bg-primary/10 p-2" />
-                Course Questions & Anwers
+                Edit Course Questions & Anwers
               </h3>
 
               <div className="flex flex-col gap-6 rounded border bg-zinc-50 px-6 py-8 shadow dark:bg-neutral-900">
@@ -235,15 +267,16 @@ const Page = () => {
               <Button
                 size="lg"
                 type="submit"
-                className="text-[1rem] font-semibold tracking-wide"
+                className="flex items-center gap-2 text-[1rem] font-semibold tracking-wide"
               >
+                <Edit className="size-5" />
                 {isPending ? (
                   <div className="flex items-center gap-2">
                     <Loader2 className="h-5 w-5 animate-spin" />
-                    <p>Creating Course...</p>
+                    <p>Editing Course...</p>
                   </div>
                 ) : (
-                  "Create Course"
+                  "Edit Course"
                 )}
               </Button>
             </div>

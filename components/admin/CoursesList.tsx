@@ -1,6 +1,6 @@
 "use client";
 
-import { PlusCircle } from "lucide-react";
+import { Loader2, PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { DataTable } from "@/app/admin/courses/_components/DataTable";
@@ -15,13 +15,19 @@ const CoursesList = () => {
   });
 
   if (isPending) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="ml-28 mt-14">
+        <Loader2 className="size-28 animate-spin text-primary" />
+      </div>
+    );
   }
 
   return (
     <section className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h3>Search Course</h3>
+        <h1 className="font-bold underline underline-offset-4 opacity-85">
+          Courses List
+        </h1>
         <Link href={"/admin/courses/add_course"}>
           <Button className="flex items-center gap-3">
             <PlusCircle className="h-5 w-5" />
@@ -29,10 +35,8 @@ const CoursesList = () => {
           </Button>
         </Link>
       </div>
-      <div className="flex flex-col gap-5">
-        <h1>Courses List</h1>
-        <DataTable columns={columns} data={data || []} />
-      </div>
+
+      <DataTable columns={columns} data={data || []} />
     </section>
   );
 };
