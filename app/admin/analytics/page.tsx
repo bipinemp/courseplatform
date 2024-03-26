@@ -24,7 +24,7 @@ const Page = () => {
 
   return (
     <Container>
-      <div className="ml-52 mt-32 flex flex-col gap-10">
+      <div className="ml-52 mt-32 flex flex-col gap-14">
         <div className="flex items-center gap-7">
           <div className="flex min-h-[85px] w-[270px] flex-col rounded-md border border-input py-3 pl-6 shadow">
             <p className="text-[1.1rem] font-semibold">Total Revenue</p>

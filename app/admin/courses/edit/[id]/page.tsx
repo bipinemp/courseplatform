@@ -94,8 +94,14 @@ const Page = ({ params: { id } }: Props) => {
     }
   }, [data, setValue]);
 
-  if (!data && Loading) {
-    return <h1>Loading...</h1>;
+  if (Loading) {
+    return (
+      <Container>
+        <div className="ml-64 mt-36">
+          <Loader2 className="size-28 animate-spin text-primary" />
+        </div>
+      </Container>
+    );
   }
 
   return (

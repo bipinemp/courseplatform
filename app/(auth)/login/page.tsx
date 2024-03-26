@@ -32,7 +32,7 @@ const Page: React.FC = () => {
           if (data?.ok) {
             router.refresh();
             toast.success("Login Success");
-            router.back();
+            router.push("/");
           }
         })
         .catch(() => toast.error("Something went wrong, Try again Later"));
