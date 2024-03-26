@@ -71,7 +71,9 @@ export const columns: ColumnDef<Course>[] = [
         maximumFractionDigits: 0,
       }).format(price);
 
-      return <div className="text-center font-medium">{formatted}</div>;
+      return (
+        <div className="text-center font-semibold opacity-80">{formatted}</div>
+      );
     },
   },
   {

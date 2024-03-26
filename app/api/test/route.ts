@@ -1,9 +1,17 @@
 import { db } from "@/lib/prismadb";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET() {
-  const session = await getServerSession(authOptions);
-  return NextResponse.json(!!session?.user);
+  const data = await db.transaction.findMany({
+    select: {
+      amount: true,
+      status: true,
+      user: {
+        select: {
+          email: true,
+        },
+      },
+    },
+  });
+  return NextResponse.json(data);
 }

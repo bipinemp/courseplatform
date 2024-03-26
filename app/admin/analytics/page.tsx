@@ -43,6 +43,7 @@ const Page = () => {
                 stroke="#888888"
                 fontSize={16}
                 fontWeight={700}
+                tickLine={false}
               />
               <YAxis
                 stroke="#888888"

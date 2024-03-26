@@ -1,6 +1,12 @@
 "use client";
 
-import { BarChart, Compass, LayoutDashboard, List } from "lucide-react";
+import {
+  BadgeDollarSign,
+  BarChart,
+  Compass,
+  LayoutDashboard,
+  List,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -14,6 +20,11 @@ const DashSidebarLinks = () => {
   const adminRoutes = [
     { icon: List, label: "Courses", href: "/admin/courses" },
     { icon: BarChart, label: "Analytics", href: "/admin/analytics" },
+    {
+      icon: BadgeDollarSign,
+      label: "Transactions",
+      href: "/admin/transactions",
+    },
   ];
 
   const pathname = usePathname();

@@ -89,3 +89,11 @@ type TAnalytics = {
     course: string;
   }[];
 };
+
+type Transaction = {
+  amount: string;
+  status: string;
+  user: {
+    email: string;
+  };
+};

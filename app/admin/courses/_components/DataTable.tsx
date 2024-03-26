@@ -72,11 +72,14 @@ export function DataTable<TData, TValue>({
           className="w-[300px] pl-10"
         />
       </div>
-      <div className="rounded border">
+      <div className="rounded border border-gray-400">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow
+                key={headerGroup.id}
+                className="border-b border-gray-400"
+              >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -100,7 +103,10 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className="font-semibold opacity-80"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
