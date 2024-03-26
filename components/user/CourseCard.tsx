@@ -21,7 +21,7 @@ const CourseCard = ({ data }: Props) => {
 
   const [courseDetails, setCourseDetails] = useState<CompletedCourse>();
   const [isCoursePurchased, setIsCoursePurchased] = useState<boolean>(
-    UserDetail?.enrollment.some(
+    UserDetail?.enrollment?.some(
       (enrollment) => enrollment.course.id === data?.id,
     ) || false,
   );
@@ -32,7 +32,7 @@ const CourseCard = ({ data }: Props) => {
     );
     setCourseDetails(updatedCourseDetails);
 
-    const isPurchased = UserDetail?.enrollment.some(
+    const isPurchased = UserDetail?.enrollment?.some(
       (enrollment) => enrollment.course.id === data?.id,
     );
     setIsCoursePurchased(isPurchased || false);

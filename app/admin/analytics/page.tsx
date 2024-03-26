@@ -28,11 +28,11 @@ const Page = () => {
         <div className="flex items-center gap-7">
           <div className="flex min-h-[85px] w-[270px] flex-col rounded-md border border-input py-3 pl-6 shadow">
             <p className="text-[1.1rem] font-semibold">Total Revenue</p>
-            <h1 className="font-black opacity-75">NPR {data?.totalRevenue}</h1>
+            <h1 className="font-bold opacity-75">NPR {data?.totalRevenue}</h1>
           </div>
           <div className="flex min-h-[85px] w-[270px] flex-col rounded-md border border-input py-3 pl-6 shadow">
             <p className="text-[1.1rem] font-semibold">Total Sales</p>
-            <h1 className="font-black opacity-75">{data?.sales}</h1>
+            <h1 className="font-bold opacity-75">{data?.sales}</h1>
           </div>
         </div>
         <div>

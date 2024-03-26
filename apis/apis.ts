@@ -52,6 +52,18 @@ export const getAllCourses = async (query: string) => {
   }
 };
 
+export const getAllAdminCourses = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses`,
+    );
+
+    return response.data.courses;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getCourseDetails = async (id: string) => {
   try {
     const response = await axios.get(

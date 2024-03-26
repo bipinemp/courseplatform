@@ -6,12 +6,12 @@ import Link from "next/link";
 import { DataTable } from "@/app/admin/courses/_components/DataTable";
 import { columns } from "@/app/admin/courses/_components/columns";
 import { useQuery } from "@tanstack/react-query";
-import { getAllCourses } from "@/apis/apis";
+import { getAllAdminCourses } from "@/apis/apis";
 
 const CoursesList = () => {
   const { data, isPending } = useQuery<Course[] | []>({
     queryKey: ["courseslist"],
-    queryFn: getAllCourses,
+    queryFn: getAllAdminCourses,
   });
 
   if (isPending) {

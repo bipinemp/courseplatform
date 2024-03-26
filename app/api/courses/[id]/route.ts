@@ -1,18 +1,10 @@
-import { getServerSession } from "next-auth/next";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/prismadb";
-import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function GET(
   req: NextRequest,
   { params: { id } }: { params: { id: string } },
 ) {
-  const session = await getServerSession(authOptions);
-
-  if (!Boolean(session?.user)) {
-    return NextResponse.json({ message: "Access Denied" }, { status: 401 });
-  }
-
   try {
     const course = await db.course.findUnique({
       where: { id },

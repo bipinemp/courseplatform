@@ -80,9 +80,9 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
 
-  if (!Boolean(session?.user)) {
-    return NextResponse.json({ message: "Access Denied" }, { status: 401 });
-  }
+  // if (!Boolean(session?.user)) {
+  //   return NextResponse.json({ message: "Access Denied" }, { status: 401 });
+  // }
   try {
     let courses;
     if (query === "" || query === null || !query) {

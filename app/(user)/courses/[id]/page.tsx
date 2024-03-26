@@ -27,7 +27,7 @@ const Page = ({ params: { id } }: Props) => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<string>("");
   const [isCoursePurchased, setIsCoursePurchased] = useState<boolean>(
-    UserDetail?.enrollment.some(
+    UserDetail?.enrollment?.some(
       (enrollment) => enrollment.course.id === data?.id,
     ) || false,
   );
@@ -47,11 +47,11 @@ const Page = ({ params: { id } }: Props) => {
   useEffect(() => {
     // Initialize correctAnswers array with progress data
     if (data) {
-      const newCorrectAnswers = data.question.map((question) =>
+      const newCorrectAnswers = data?.question?.map((question) =>
         checkQuestionIdInProgressArray(question.id, data.progress),
       );
       setCorrectAnswers(newCorrectAnswers);
-      const isPurchased = UserDetail?.enrollment.some(
+      const isPurchased = UserDetail?.enrollment?.some(
         (enrollment) => enrollment.course.id === data?.id,
       );
       setIsCoursePurchased(isPurchased || false);
