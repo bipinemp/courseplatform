@@ -75,14 +75,38 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
+  const { searchParams } = new URL(req.url);
+  const query = searchParams.get("query");
 
   if (!Boolean(session?.user)) {
     return NextResponse.json({ message: "Access Denied" }, { status: 401 });
   }
   try {
-    const courses = await db.course.findMany();
+    let courses;
+    if (query === "" || query === null || !query) {
+      courses = await db.course.findMany();
+    } else {
+      courses = await db.course.findMany({
+        where: {
+          OR: [
+            {
+              title: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+            {
+              description: {
+                contains: query,
+                mode: "insensitive",
+              },
+            },
+          ],
+        },
+      });
+    }
 
     return NextResponse.json(
       { message: "Courses List Fetched Successfully", courses },

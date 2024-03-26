@@ -33,18 +33,19 @@ export const updateCourse = async (data: any) => {
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/edit/${id}`,
       dataWithoutId,
     );
-    console.log("res: ", response);
+
     return response.data;
   } catch (error) {
     return error;
   }
 };
 
-export const getAllCourses = async () => {
+export const getAllCourses = async (query: string) => {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/?query=${query}`,
     );
+
     return response.data.courses;
   } catch (error) {
     return error;
@@ -100,6 +101,18 @@ export const setCourseEnrollment = async (data: CourseEnrollmentProps) => {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/orders/create`,
       data,
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+// For admin analytics
+export const getAdminAnalytics = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/analytics`,
     );
     return response.data;
   } catch (error) {

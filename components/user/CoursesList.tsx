@@ -7,14 +7,18 @@ import CourseCard from "./CourseCard";
 import { useGetUserDetails } from "@/apis/queries";
 import UserBrowseLoading from "../UserBrowseLoading";
 import UserDashboardLoading from "../UserDashboardLoading";
+import { useSearchParams } from "next/navigation";
 
 interface CourseListProps {
   isDashboard?: boolean;
 }
 const CoursesList = ({ isDashboard }: CourseListProps) => {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("query");
+
   const { data, isPending } = useQuery<Course[]>({
-    queryKey: ["usercourses"],
-    queryFn: getAllCourses,
+    queryKey: ["usercourses", query],
+    queryFn: () => getAllCourses(query || ""),
     enabled: !isDashboard,
   });
 

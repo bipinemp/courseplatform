@@ -72,8 +72,11 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    redirect(`/courses/${transaction?.courseId}`);
-  } catch (error) {
+    return NextResponse.redirect(
+      `http://localhost:3000/courses/${transaction?.courseId}`,
+    );
+  } catch (error: any) {
+    console.log(error);
     return NextResponse.json(
       { message: "Something went wrong, Try again Later" },
       { status: 500 },

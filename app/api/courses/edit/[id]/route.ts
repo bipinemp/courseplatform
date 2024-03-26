@@ -11,11 +11,9 @@ export async function POST(
   const session = await getServerSession(authOptions);
   const data: EditCourseDetails = await req.json();
 
-  //   console.log(data);
-
-  //   if (!Boolean(session?.user) && session?.role !== "ADMIN") {
-  //     return NextResponse.json({ message: "Access Denied" }, { status: 401 });
-  //   }
+  if (!Boolean(session?.user) && session?.role !== "ADMIN") {
+    return NextResponse.json({ message: "Access Denied" }, { status: 401 });
+  }
 
   try {
     const isCourseExists = await db.course.findUnique({ where: { id } });

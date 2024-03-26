@@ -80,3 +80,12 @@ type UserDetail = {
   completedCourses: CompletedCourse[];
   enrollment: Enrollment[];
 };
+
+type TAnalytics = {
+  sales: number;
+  totalRevenue: number;
+  barData: {
+    amount: string;
+    course: string;
+  }[];
+};

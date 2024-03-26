@@ -4,7 +4,7 @@ import CoursesList from "@/components/admin/CoursesList";
 const page = () => {
   return (
     <Container>
-      <div className="pl-52 pt-32">
+      <div className="ml-52 mt-32">
         <CoursesList />
       </div>
     </Container>
