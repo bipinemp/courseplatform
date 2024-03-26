@@ -6,6 +6,7 @@ import {
   Compass,
   LayoutDashboard,
   List,
+  User,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -15,6 +16,7 @@ const DashSidebarLinks = () => {
   const userRoutes = [
     { icon: Compass, label: "Browse", href: "/" },
     { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+    { icon: User, label: "Profile", href: "/profile" },
   ];
 
   const adminRoutes = [

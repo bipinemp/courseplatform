@@ -20,7 +20,7 @@ const Browse = ({ isDashboard }: BrowseProps) => {
   );
 
   return (
-    <div className="mb-20 flex flex-col gap-7 pl-52 pt-32">
+    <div className="mb-20 ml-52 mt-32 flex flex-col gap-7">
       {isDashboard && (
         <div className="flex items-center gap-10">
           {progressCourses && (

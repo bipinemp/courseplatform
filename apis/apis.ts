@@ -102,6 +102,29 @@ export const getUserDetails = async () => {
   }
 };
 
+export const getUserDetailsforUpdate = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/userdetail`,
+    );
+    return response.data.userDetails;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const updateUserProfile = async (data: any) => {
+  try {
+    const response = await axios.patch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/updateprofile`,
+      data,
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
 interface CourseEnrollmentProps {
   name: string;
   price: number;

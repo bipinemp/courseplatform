@@ -35,7 +35,7 @@ const ProfileDropDown = async () => {
           )}
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[220px">
+      <DropdownMenuContent className="w-[150px]">
         <DropdownMenuItem>
           <Link
             href={"/profile"}
@@ -46,25 +46,6 @@ const ProfileDropDown = async () => {
           </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuItem>
-          <Link
-            href={"/settings"}
-            className="flex w-full items-center gap-1 px-2 text-lg"
-          >
-            <Settings className="mr-2 h-[1.2rem] w-[1.2rem]" />
-            <span>Settings</span>
-          </Link>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem>
-          <Link
-            href={"/encolled_courses"}
-            className="flex w-full items-center gap-1 px-2 text-lg"
-          >
-            <BookOpen className="mr-2 h-[1.2rem] w-[1.2rem]" />
-            <span>Enrolled Courses</span>
-          </Link>
-        </DropdownMenuItem>
         <DropdownMenuItem className="hover:bg-none">
           <LogOutBtn />
         </DropdownMenuItem>
