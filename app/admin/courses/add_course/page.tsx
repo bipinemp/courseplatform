@@ -23,9 +23,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCourse } from "@/apis/apis";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
+
   const {
     register,
     control,
@@ -40,7 +43,6 @@ const Page = () => {
       description: "",
       price: "",
       questions: [{ title: "", answers: [{ title: "" }], correctAnswer: "" }],
-      questionsCount: "",
     },
   });
 
@@ -54,7 +56,7 @@ const Page = () => {
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["courseslist"] });
       toast.success("Course Created Successfully");
-
+      router.push("/admin/courses");
       reset();
     },
     onError(error) {
@@ -122,16 +124,6 @@ const Page = () => {
                   error={errors?.price?.message || ""}
                   desc="Mention the Price you want to charge for the Course"
                   label="Course Price"
-                />
-
-                <InputBox
-                  name="questionsCount"
-                  id="questionsCount"
-                  placeholder="Enter Question Count..."
-                  register={register}
-                  error={errors?.questionsCount?.message || ""}
-                  desc="Mention the number of questions in the course"
-                  label="Questions Count"
                 />
               </div>
             </div>

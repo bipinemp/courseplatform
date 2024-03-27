@@ -38,10 +38,7 @@ const CourseCard = ({ data }: Props) => {
     setIsCoursePurchased(isPurchased || false);
   }, [data, UserDetail]);
 
-  const formattedPrice = new Intl.NumberFormat("np", {
-    style: "currency",
-    currency: "NPR",
-  }).format(price);
+  const formattedPrice = new Intl.NumberFormat(undefined).format(price);
 
   const formattedDescription =
     description.length > 35
@@ -51,7 +48,7 @@ const CourseCard = ({ data }: Props) => {
   return (
     <div
       onClick={() => router.push(`/courses/${id}`)}
-      className="flex min-h-[190px] w-[320px] cursor-pointer flex-col gap-5 rounded-md border border-input px-5 py-4 shadow-md transition hover:border-primary hover:bg-zinc-100 dark:hover:bg-neutral-800"
+      className="flex h-[250px] w-[320px] cursor-pointer flex-col justify-between rounded-md border border-input px-5 py-4 shadow-md transition hover:border-primary hover:bg-zinc-100 dark:hover:bg-neutral-900"
     >
       <h2 className="font-semibold underline underline-offset-4">{title}</h2>
       <div className="flex items-center gap-2">
@@ -63,9 +60,12 @@ const CourseCard = ({ data }: Props) => {
         </p>
       </div>
 
-      <p className="font-semibold">{formattedPrice}</p>
-
       <p className="opacity-80">{formattedDescription}</p>
+
+      {!courseDetails?.percentage && !isCoursePurchased && (
+        <p className="font-semibold">Rs. {formattedPrice}</p>
+      )}
+
       {isCoursePurchased && !courseDetails?.percentage && (
         <div className="flex flex-col gap-2 font-semibold text-blue-500">
           <Progress

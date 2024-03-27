@@ -24,7 +24,8 @@ const Page: React.FC = () => {
     try {
       await signIn("credentials", {
         ...loginInfo,
-        redirect: false,
+        redirect: true,
+        callbackUrl: "/",
       })
         .then((data) => {
           if (data?.error === "CredentialsSignin") {
@@ -33,7 +34,6 @@ const Page: React.FC = () => {
           if (data?.ok) {
             router.refresh();
             toast.success("Login Success");
-            router.push("/");
           }
         })
         .catch(() => toast.error("Something went wrong, Try again Later"));
@@ -51,7 +51,7 @@ const Page: React.FC = () => {
   return (
     <Container>
       <div className="mx-auto mt-40 flex min-h-[200px] max-w-[400px] flex-col items-center justify-center gap-10">
-        <h1 className="font-black text-gray-700 underline underline-offset-4">
+        <h1 className="font-black underline underline-offset-4 opacity-80">
           Login
         </h1>
         <form

@@ -17,7 +17,8 @@ export const CourseSchema = z.object({
     .min(1, { message: "You must enter a Price amount" }),
   questionsCount: z
     .string({ required_error: "Questions Count is required" })
-    .min(1, { message: "You must enter a questions count" }),
+    .min(1, { message: "You must enter a questions count" })
+    .optional(),
 
   // Question
   questions: z.array(

@@ -42,7 +42,7 @@ const Page: React.FC = () => {
   return (
     <Container>
       <div className="mx-auto mt-40 flex min-h-[200px] max-w-[400px] flex-col items-center justify-center gap-10">
-        <h1 className="font-black text-gray-700 underline underline-offset-4">
+        <h1 className="font-black underline underline-offset-4 opacity-80">
           Register
         </h1>
         <form onSubmit={handleSubmit} className="flex w-full flex-col gap-5">

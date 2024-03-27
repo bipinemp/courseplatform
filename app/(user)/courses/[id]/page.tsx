@@ -144,10 +144,7 @@ const Page = ({ params: { id } }: Props) => {
 
   let content: React.ReactNode;
 
-  const formattedPrice = new Intl.NumberFormat("np", {
-    style: "currency",
-    currency: "NPR",
-  }).format(data?.price ?? 0);
+  const formattedPrice = new Intl.NumberFormat("np").format(data?.price ?? 0);
 
   if (isCoursePurchased) {
     content = (
@@ -155,13 +152,20 @@ const Page = ({ params: { id } }: Props) => {
         {showConfetti && <Confetti />}
         <Container>
           <div className="ml-52 mt-32 flex w-[850px] flex-col gap-5">
-            <div className="flex w-fit items-center gap-3 rounded-md border border-input px-4 py-3 font-semibold text-gray-700 shadow">
-              <p>Course</p>
-              <span> | </span>
-              <p>{data?.title}</p>
+            <div className="flex items-center justify-between">
+              <div className="flex w-fit items-center gap-3 rounded-md border border-input px-4 py-3 font-semibold opacity-80 shadow">
+                <p>Course</p>
+                <span> | </span>
+                <p>{data?.title}</p>
+              </div>
+              <div>
+                <p className="font-semibold opacity-80">
+                  Questions ( {currentIndex + 1} / {data?.question.length} )
+                </p>
+              </div>
             </div>
             <div
-              className="flex flex-col gap-3 font-semibold text-gray-600"
+              className="flex flex-col gap-3 font-semibold opacity-80"
               key={data?.question[currentIndex].title}
             >
               <h2 className="flex min-h-[75px] items-center">
@@ -172,9 +176,9 @@ const Page = ({ params: { id } }: Props) => {
                   <div key={answer.id}>
                     <p
                       className={cn(
-                        "cursor-pointer rounded border border-input px-5 py-4 shadow transition hover:border hover:border-primary/60 hover:bg-zinc-100",
+                        "cursor-pointer rounded border border-input px-5 py-4 shadow transition hover:border hover:border-primary/60 hover:bg-zinc-100 dark:hover:bg-neutral-900",
                         {
-                          "border border-primary/60 bg-zinc-100":
+                          "border border-primary/60 bg-zinc-100 dark:bg-neutral-900":
                             selectedAnswerIndex === answer.id,
                         },
                       )}
@@ -240,7 +244,7 @@ const Page = ({ params: { id } }: Props) => {
                 data?.id || "",
               )
             }
-            className="w-fit py-7 text-2xl"
+            className="w-fit py-7 text-2xl font-semibold"
             size={"lg"}
           >
             {Enrolling ? (
@@ -249,7 +253,7 @@ const Page = ({ params: { id } }: Props) => {
                 <p>Enrolling...</p>
               </div>
             ) : (
-              `Enroll for ${formattedPrice}`
+              `Enroll for Rs. ${formattedPrice}`
             )}
           </Button>
         </div>

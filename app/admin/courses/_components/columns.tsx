@@ -65,14 +65,11 @@ export const columns: ColumnDef<Course>[] = [
     },
     cell: ({ row }) => {
       const price = parseFloat(row.getValue("price"));
-      const formatted = new Intl.NumberFormat("np", {
-        style: "currency",
-        currency: "NPR",
-        maximumFractionDigits: 0,
-      }).format(price);
-
+      const formattedPrice = new Intl.NumberFormat(undefined).format(price);
       return (
-        <div className="text-center font-semibold opacity-80">{formatted}</div>
+        <div className="text-center font-semibold opacity-80">
+          Rs. {formattedPrice}
+        </div>
       );
     },
   },

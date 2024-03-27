@@ -36,14 +36,11 @@ export const columns: ColumnDef<TTransaction>[] = [
     },
     cell: ({ row }) => {
       const price = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("np", {
-        style: "currency",
-        currency: "NPR",
-        maximumFractionDigits: 0,
-      }).format(price);
-
+      const formattedPrice = new Intl.NumberFormat(undefined).format(price);
       return (
-        <div className="opacit-80 text-center font-semibold">{formatted}</div>
+        <div className="opacit-80 text-center font-semibold">
+          Rs. {formattedPrice}
+        </div>
       );
     },
   },

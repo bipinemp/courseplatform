@@ -2,7 +2,6 @@
 
 import { getAllCourses } from "@/apis/apis";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
 import CourseCard from "./CourseCard";
 import { useGetUserDetails } from "@/apis/queries";
 import UserBrowseLoading from "../UserBrowseLoading";
@@ -29,9 +28,15 @@ const CoursesList = ({ isDashboard }: CourseListProps) => {
     return isDashboard ? <UserDashboardLoading /> : <UserBrowseLoading />;
   }
 
-  if (data?.length === 0) {
+  if (!isDashboard && data?.length === 0) {
     return (
-      <h1 className="font-semibold text-destructive">No Courses Available</h1>
+      <h1 className="pl-4 font-semibold text-red-500">No Courses Available</h1>
+    );
+  }
+
+  if (isDashboard && UserDetail?.enrollment?.length === 0) {
+    return (
+      <h1 className="pl-4 font-semibold text-red-500">No Courses Purchased</h1>
     );
   }
 

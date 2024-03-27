@@ -1,8 +1,8 @@
 import { DarkLightMode } from "./DarkLightMode";
 import ProfileDropDown from "./ProfileDropDown";
 import Search from "./Search";
-import AdminMode from "./admin/AdminMode";
 import LoginBtn from "./LoginBtn";
+import AdminModeWrapper from "./admin/AdminModeWrapper";
 
 const Navbar = () => {
   return (
@@ -12,7 +12,7 @@ const Navbar = () => {
       </div>
       <div className="flex items-center gap-4">
         <LoginBtn />
-        <AdminMode />
+        <AdminModeWrapper />
         <ProfileDropDown />
         <DarkLightMode />
       </div>

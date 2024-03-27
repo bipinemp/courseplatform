@@ -31,7 +31,7 @@ export async function POST(
         title: data.title,
         description: data.description,
         price: parseInt(data.price),
-        questionsCount: parseInt(data.questionsCount),
+        questionsCount: data.questions.length,
       },
     });
 

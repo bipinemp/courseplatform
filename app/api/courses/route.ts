@@ -27,18 +27,18 @@ export async function POST(req: NextRequest) {
     }
 
     const parsedData = CourseSchema.parse(data);
-    const { title, description, price, questionsCount, questions } = parsedData;
+    const { title, description, price, questions } = parsedData;
 
     const course = await db.course.create({
       data: {
         title,
         description,
         price: parseInt(price),
-        questionsCount: parseInt(questionsCount),
+        questionsCount: questions.length,
         question: {
           create: questions.map((question) => ({
             title: question.title,
-            correctAnswer: question.correctAnswer,
+            correctAnswer: question.correctAnswer || "",
             answers: {
               create: question.answers.map((answer) => ({
                 title: answer.title,

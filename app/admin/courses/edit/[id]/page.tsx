@@ -43,16 +43,14 @@ const Page = ({ params: { id } }: Props) => {
     control,
     handleSubmit,
     getValues,
-
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<TCourse>({
     resolver: zodResolver(CourseSchema),
     defaultValues: {
       title: "",
       description: "",
       price: "",
-      questionsCount: "",
       questions: [{ title: "", answers: [{ title: "" }], correctAnswer: "" }],
     },
   });
@@ -89,7 +87,6 @@ const Page = ({ params: { id } }: Props) => {
       setValue("title", data?.title);
       setValue("description", data?.description);
       setValue("price", data?.price.toString());
-      setValue("questionsCount", data?.questionsCount.toString());
       setValue("questions", data?.question as any);
     }
   }, [data, setValue]);
@@ -160,16 +157,6 @@ const Page = ({ params: { id } }: Props) => {
                   error={errors?.price?.message || ""}
                   desc="Mention the Price you want to charge for the Course"
                   label="Course Price"
-                />
-
-                <InputBox
-                  name="questionsCount"
-                  id="questionsCount"
-                  placeholder="Enter Question Count..."
-                  register={register}
-                  error={errors?.questionsCount?.message || ""}
-                  desc="Mention the number of questions in the course"
-                  label="Questions Count"
                 />
               </div>
             </div>
@@ -273,9 +260,10 @@ const Page = ({ params: { id } }: Props) => {
               <Button
                 size="lg"
                 type="submit"
+                disabled={!isDirty}
                 className="flex items-center gap-2 text-[1rem] font-semibold tracking-wide"
               >
-                <Edit className="size-5" />
+                {!isPending && <Edit className="size-5" />}
                 {isPending ? (
                   <div className="flex items-center gap-2">
                     <Loader2 className="h-5 w-5 animate-spin" />
