@@ -12,6 +12,7 @@ import Confetti from "react-confetti";
 import { cn } from "@/lib/utils";
 import CourseDetailLoading from "@/components/CourseDetailLoading";
 import { useRouter } from "next/navigation";
+import { useConfettiStore } from "@/store/store";
 
 interface Props {
   params: { id: string | undefined };
@@ -20,6 +21,7 @@ interface Props {
 const Page = ({ params: { id } }: Props) => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { onOpen, onClose } = useConfettiStore();
   const { data, isPending } = useGetCourseDetails(id || "");
   const { data: UserDetail } = useGetUserDetails(true);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -71,8 +73,7 @@ const Page = ({ params: { id } }: Props) => {
         // Check if all questions are solved after updating correctAnswers
         const allQuestionsSolved = newAnswers.every((answer) => answer);
         if (allQuestionsSolved) {
-          setShowConfetti(true); // Show confetti if all questions are solved
-          setTimeout(() => setShowConfetti(false), 5000);
+          onOpen();
         }
 
         return newAnswers;
@@ -122,8 +123,7 @@ const Page = ({ params: { id } }: Props) => {
       }
 
       if (isLastQuestion && correctAnswers.every((answer) => answer)) {
-        setShowConfetti(true); // Show confetti if last question is correct
-        setTimeout(() => setShowConfetti(false), 5000);
+        onOpen();
       }
     } else {
       toast.error("Incorrect answer");
@@ -149,7 +149,6 @@ const Page = ({ params: { id } }: Props) => {
   if (isCoursePurchased) {
     content = (
       <>
-        {showConfetti && <Confetti />}
         <Container>
           <div className="ml-52 mt-32 flex w-[850px] flex-col gap-5">
             <div className="flex items-center justify-between">

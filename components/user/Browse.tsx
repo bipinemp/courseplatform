@@ -3,6 +3,7 @@
 import { useGetUserDetails } from "@/apis/queries";
 import { CircleCheckBig, Clock } from "lucide-react";
 import CoursesList from "./CoursesList";
+import Confetti from "react-confetti";
 
 interface BrowseProps {
   isDashboard?: boolean;

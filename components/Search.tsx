@@ -1,13 +1,11 @@
 "use client";
 
 import { SearchIcon } from "lucide-react";
-import React, { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createUrl } from "@/lib/createUrl";
 
 const Search = () => {
-  const [value, setValue] = useState("");
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
