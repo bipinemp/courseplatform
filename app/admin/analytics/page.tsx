@@ -32,8 +32,6 @@ const Page = () => {
     );
   }
 
-  console.log(data?.barData);
-
   return (
     <Container>
       <div className="mb-20 ml-52 mt-32 flex flex-col gap-14">
