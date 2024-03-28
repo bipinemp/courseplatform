@@ -46,44 +46,32 @@ enum UserRole {
 }
 
 model User {
-  id            String       @id @default(uuid())
-  name          String
-  email         String       @unique()
-  password      String
-  image         String?
-  role          UserRole     @default(USER)
-  emailVerified Boolean?     @map("email_verified")
-  createdAt     DateTime?
-  updatedAt     DateTime?    @updatedAt
-  accounts      Account[]
-  sessions      Session[]
-  enrollment    enrollment[]
-  progress      progress[]
-
-  completedCourses completedCourses[]
-  transaction      transaction[]
-}
-
-model completedCourses {
-  id String @id @default(uuid())
-
-  courseId   String
-  percentage String
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
+  id             String           @id @default(uuid())
+  name           String
+  email          String           @unique()
+  password       String
+  image          String?
+  role           UserRole         @default(USER)
+  emailVerified  Boolean?         @map("email_verified")
+  createdAt      DateTime?
+  updatedAt      DateTime?        @updatedAt
+  accounts       Account[]
+  sessions       Session[]
+  enrollment     enrollment[]
+  transaction    transaction[]
+  CourseProgress CourseProgress[]
 }
 
 model course {
-  id             String        @id @default(uuid())
-  title          String        @unique
+  id             String           @id @default(uuid())
+  title          String           @unique
   description    String
   price          Int
-  questionsCount Int           @map("questions_count")
+  questionsCount Int              @map("questions_count")
   question       question[]
   enrollment     enrollment[]
-  progress       progress[]
   transaction    transaction[]
+  CourseProgress CourseProgress[]
 }
 
 model question {
@@ -92,9 +80,8 @@ model question {
   correctAnswer String    @map("correct_answer")
   answers       answers[]
 
-  course   course     @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId String     @map("course_id")
-  progress progress[]
+  course   course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @map("course_id")
 }
 
 model answers {
@@ -102,17 +89,6 @@ model answers {
   title      String
   question   question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId String   @map("question_id")
-}
-
-model progress {
-  id         String   @id @default(uuid())
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String
-  course     course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  courseId   String
-  question   question @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  questionId String
-  createdAt  DateTime @default(now())
 }
 
 model enrollment {
@@ -123,6 +99,26 @@ model enrollment {
 
   course   course @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId String @map("course_id")
+}
+
+model CourseProgress {
+  id String @id @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
+
+  course   course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId String @map("course_id")
+
+  completedQuestions String[] @default([])
+  totalQuestions     Int
+
+  progress Float @default(0.0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@unique([courseId, userId])
 }
 
 enum Status {

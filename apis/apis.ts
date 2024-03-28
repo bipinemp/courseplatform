@@ -79,7 +79,7 @@ interface ProgressInput {
   questionId: string;
   courseId: string;
 }
-export const setProgress = async (data: ProgressInput) => {
+export const setProgress = async (data: any) => {
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/progress`,

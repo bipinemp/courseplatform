@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import { Progress } from "../ui/progress";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { getUserDetails } from "@/apis/apis";
-import { useQuery } from "@tanstack/react-query";
 import { useGetUserDetails } from "@/apis/queries";
 
 interface Props {
@@ -19,18 +17,23 @@ const CourseCard = ({ data }: Props) => {
 
   const { data: UserDetail } = useGetUserDetails(true);
 
-  const [courseDetails, setCourseDetails] = useState<CompletedCourse>();
+  const [percentage, setPercentage] = useState<string>("");
   const [isCoursePurchased, setIsCoursePurchased] = useState<boolean>(
-    UserDetail?.enrollment?.some(
-      (enrollment) => enrollment.course.id === data?.id,
-    ) || false,
+    !UserDetail
+      ? false
+      : UserDetail?.enrollment?.some(
+          (enrollment) => enrollment.course.id === data?.id,
+        ) || false,
   );
 
   useEffect(() => {
-    const updatedCourseDetails = UserDetail?.completedCourses?.find(
-      (course) => course.courseId === id,
-    );
-    setCourseDetails(updatedCourseDetails);
+    const courseCompletePercentage = UserDetail?.CourseProgress?.find(
+      (progress) => progress.courseId === data?.id,
+    )?.progress.toString();
+
+    if (courseCompletePercentage) {
+      setPercentage(courseCompletePercentage.split(".")[0]);
+    }
 
     const isPurchased = UserDetail?.enrollment?.some(
       (enrollment) => enrollment.course.id === data?.id,
@@ -62,11 +65,11 @@ const CourseCard = ({ data }: Props) => {
 
       <p className="opacity-80">{formattedDescription}</p>
 
-      {!courseDetails?.percentage && !isCoursePurchased && (
+      {!isCoursePurchased && percentage === "0" && (
         <p className="font-semibold">Rs. {formattedPrice}</p>
       )}
 
-      {isCoursePurchased && !courseDetails?.percentage && (
+      {isCoursePurchased && percentage === "0" && (
         <div className="flex flex-col gap-2 font-semibold text-blue-500">
           <Progress
             value={0}
@@ -76,25 +79,25 @@ const CourseCard = ({ data }: Props) => {
           <p className="pl-1">0% Completed</p>
         </div>
       )}
-      {courseDetails?.percentage && (
+      {parseInt(percentage) > 0 && (
         <div
           className={cn("flex flex-col gap-2 font-semibold", {
-            "text-blue-500": courseDetails?.percentage !== "100",
-            "text-green-500": courseDetails?.percentage === "100",
+            "text-blue-500": percentage !== "0",
+            "text-green-500": percentage === "100",
           })}
         >
           <Progress
-            value={parseInt(courseDetails?.percentage)}
+            value={parseInt(percentage)}
             className="h-[10px]"
             indicatorColor={cn("", {
-              "bg-blue-500": courseDetails?.percentage !== "100",
-              "bg-green-500": courseDetails?.percentage === "100",
+              "bg-blue-500": percentage !== "100",
+              "bg-green-500": percentage === "100",
             })}
           />
           <p className="pl-1">
-            {courseDetails?.percentage === "100%"
+            {percentage === "100"
               ? "100% completed"
-              : `${courseDetails?.percentage}% completed`}
+              : `${percentage}% completed`}
           </p>
         </div>
       )}

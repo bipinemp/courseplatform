@@ -1,12 +1,21 @@
 import { db } from "@/lib/prismadb";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+import { authOptions } from "../auth/[...nextauth]/route";
+
+interface Enrollment {
+  course: {
+    title: string;
+  };
+}
+
+interface TransformedData {
+  name: string;
+  count: number;
+}
 
 export async function GET() {
-  const data = await db.completedCourses.groupBy({
-    by: ["userId"],
-    _count: {
-      userId: true,
-    },
-  });
-  return NextResponse.json(data);
+  const session = await getServerSession(authOptions);
+
+  return NextResponse.json({ session });
 }

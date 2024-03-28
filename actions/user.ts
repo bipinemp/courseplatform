@@ -23,7 +23,6 @@ export const getUserById = async (id: string) => {
         emailVerified: true,
         createdAt: true,
         updatedAt: true,
-        completedCourses: true,
       },
     });
     return user;

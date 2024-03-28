@@ -17,6 +17,7 @@ type Course = {
   description: string;
   price: number;
   questionsCount: number;
+  CourseProgress: CourseProgress[];
 };
 
 type EditCourseDetails = {
@@ -29,20 +30,29 @@ type EditCourseDetails = {
   progress: Progress[];
 };
 
+type CourseProgress = {
+  id: string;
+  userId: string;
+  courseId: string;
+  completedQuestions: string[];
+  totalQuestions: number;
+  progress: number;
+};
+
 type CourseDetails = {
   id: string;
   title: string;
   description: string;
   price: number;
-  questionsCount: number;
+  questionsCount: string;
   question: Question[];
-  progress: Progress[];
+  CourseProgress: CourseProgress[];
 };
 
 type Question = {
   id: string;
   title: string;
-  correctAnswer: number;
+  correctAnswer: string;
   answers: Answer[];
   progress: Progress[];
 };
@@ -77,7 +87,7 @@ type UserDetail = {
   emailVerified: string | null;
   createdAt: string;
   updatedAt: string;
-  completedCourses: CompletedCourse[];
+  CourseProgress: CourseProgress[];
   enrollment: Enrollment[];
 };
 
@@ -87,6 +97,10 @@ type TAnalytics = {
   barData: {
     amount: string;
     course: string;
+  }[];
+  piechartData: {
+    name: string;
+    count: number;
   }[];
 };
 

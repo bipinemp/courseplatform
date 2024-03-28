@@ -86,9 +86,38 @@ export async function GET(req: NextRequest) {
   try {
     let courses;
     if (query === "" || query === null || !query) {
-      courses = await db.course.findMany();
+      courses = await db.course.findMany({
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          price: true,
+          questionsCount: true,
+          question: true,
+          // CourseProgress: {
+          //   where: {
+          //     userId: session?.id,
+          //   },
+          // },
+          enrollment: true,
+        },
+      });
     } else {
       courses = await db.course.findMany({
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          price: true,
+          questionsCount: true,
+          question: true,
+          // CourseProgress: {
+          //   where: {
+          //     userId: session?.id,
+          //   },
+          // },
+          enrollment: true,
+        },
         where: {
           OR: [
             {

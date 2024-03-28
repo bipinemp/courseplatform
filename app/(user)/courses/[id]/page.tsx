@@ -3,16 +3,15 @@
 import { setCourseEnrollment, setProgress } from "@/apis/apis";
 import { useGetCourseDetails, useGetUserDetails } from "@/apis/queries";
 import Container from "@/components/Container";
+import CourseDetailLoading from "@/components/CourseDetailLoading";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useConfettiStore } from "@/store/store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, Loader2, ShieldAlert } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import Confetti from "react-confetti";
-import { cn } from "@/lib/utils";
-import CourseDetailLoading from "@/components/CourseDetailLoading";
-import { useRouter } from "next/navigation";
-import { useConfettiStore } from "@/store/store";
 
 interface Props {
   params: { id: string | undefined };
@@ -24,65 +23,21 @@ const Page = ({ params: { id } }: Props) => {
   const { onOpen, onClose } = useConfettiStore();
   const { data, isPending } = useGetCourseDetails(id || "");
   const { data: UserDetail } = useGetUserDetails(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [correctAnswers, setCorrectAnswers] = useState<Boolean[]>([]);
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<string>("");
   const [isCoursePurchased, setIsCoursePurchased] = useState<boolean>(
     UserDetail?.enrollment?.some(
       (enrollment) => enrollment.course.id === data?.id,
     ) || false,
   );
 
-  function checkQuestionIdInProgressArray(
-    questionId: string,
-    progressArray: Progress[],
-  ) {
-    for (const item of progressArray) {
-      if (item.questionId === questionId) {
-        return true; // QuestionId exists in progress array
-      }
-    }
-    return false; // QuestionId does not exist in progress array
-  }
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<string>("");
+  // index for the particular question
+  const [currentQuesIndex, setCurrentQuesIndex] = useState<number>(0);
+  // for tracking currentIndex question's correct answer
+  const [correctAnswer, setCorrectAnswer] = useState(
+    data?.question[currentQuesIndex]?.correctAnswer || "",
+  );
 
-  useEffect(() => {
-    // Initialize correctAnswers array with progress data
-    if (data) {
-      const newCorrectAnswers = data?.question?.map((question) =>
-        checkQuestionIdInProgressArray(question.id, data.progress),
-      );
-      setCorrectAnswers(newCorrectAnswers);
-      const isPurchased = UserDetail?.enrollment?.some(
-        (enrollment) => enrollment.course.id === data?.id,
-      );
-      setIsCoursePurchased(isPurchased || false);
-    }
-  }, [data, UserDetail]);
-
-  const { mutate } = useMutation({
-    mutationFn: setProgress,
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["coursedetails", id] });
-      queryClient.invalidateQueries({ queryKey: ["usercourses"] });
-
-      setCorrectAnswers((prevAnswers) => {
-        const newAnswers = [...prevAnswers];
-        newAnswers[currentIndex] = true;
-
-        // Check if all questions are solved after updating correctAnswers
-        const allQuestionsSolved = newAnswers.every((answer) => answer);
-        if (allQuestionsSolved) {
-          onOpen();
-        }
-
-        return newAnswers;
-      });
-    },
-    onError(data) {
-      toast.error(data.message);
-    },
-  });
+  const [solvedQuestionsIds, setSolvedQuestionsIds] = useState<string[]>([]);
 
   const { mutate: EnrollCourse, isPending: Enrolling } = useMutation({
     mutationFn: setCourseEnrollment,
@@ -102,41 +57,65 @@ const Page = ({ params: { id } }: Props) => {
     EnrollCourse(data);
   };
 
-  const handleAnswerSubmit = (
-    questionId: string,
-    courseId: string,
-    answer: string,
-    answerId: string,
-  ) => {
-    const isLastQuestion = currentIndex === (data?.question.length ?? 0) - 1;
-    setSelectedAnswerIndex(answerId);
+  const { mutate } = useMutation({
+    mutationFn: setProgress,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["cousedetails", data?.id] });
+    },
+    onError(error) {
+      toast.error(error.message);
+    },
+  });
 
-    const Data = { questionId, courseId };
+  const handleAnswerSubmit = (answer: string, questionId: string) => {
+    if (answer.toLowerCase().trim() !== correctAnswer.toLowerCase().trim()) {
+      toast.error("Incorrect Answer");
+    } else {
+      toast.success("Correct Answer");
 
-    if (
-      answer.toString() ===
-      data?.question[currentIndex]?.correctAnswer.toString()
-    ) {
-      toast.success("Correct Ansser");
-      if (!checkQuestionIdInProgressArray(questionId, data?.progress)) {
-        mutate(Data);
-      }
-
-      if (isLastQuestion && correctAnswers.every((answer) => answer)) {
+      if (
+        currentQuesIndex + 1 === data?.question.length &&
+        solvedQuestionsIds.length === data?.question.length
+      ) {
         onOpen();
       }
-    } else {
-      toast.error("Incorrect answer");
+
+      // Only update progress if this question has not been answered correctly before
+      if (
+        !solvedQuestionsIds.includes(data?.question[currentQuesIndex]?.id || "")
+      ) {
+        const newSolvedQuestionsIds = [...solvedQuestionsIds, questionId];
+        setSolvedQuestionsIds(newSolvedQuestionsIds);
+
+        // Calculate progress based on the number of correct answers
+        const progress =
+          data && newSolvedQuestionsIds.length / data?.question?.length;
+
+        const sendData = {
+          progress: progress === 1 ? 100 : progress,
+          courseId: data?.id,
+          completedQuestions: newSolvedQuestionsIds,
+          totalQuestions: data?.question.length,
+        };
+
+        mutate(sendData);
+      }
     }
   };
 
-  const handleNextQuestion = () => {
-    setCurrentIndex(currentIndex + 1);
-  };
-
-  const handlePreviousQuestion = () => {
-    setCurrentIndex(currentIndex - 1);
-  };
+  useEffect(() => {
+    if (data) {
+      const userCourseProgress = data?.CourseProgress.find(
+        (progress) => progress.userId === UserDetail?.id,
+      );
+      setSolvedQuestionsIds(userCourseProgress?.completedQuestions || []);
+      setCorrectAnswer(data?.question[currentQuesIndex]?.correctAnswer);
+      const isPurchased = UserDetail?.enrollment?.some(
+        (enrollment) => enrollment.course.id === data?.id,
+      );
+      setIsCoursePurchased(isPurchased || false);
+    }
+  }, [data, UserDetail, currentQuesIndex]);
 
   if (isPending) {
     return <CourseDetailLoading />;
@@ -148,78 +127,77 @@ const Page = ({ params: { id } }: Props) => {
 
   if (isCoursePurchased) {
     content = (
-      <>
-        <Container>
-          <div className="ml-52 mt-32 flex w-[850px] flex-col gap-5">
-            <div className="flex items-center justify-between">
-              <div className="flex w-fit items-center gap-3 rounded-md border border-input px-4 py-3 font-semibold opacity-80 shadow">
-                <p>Course</p>
-                <span> | </span>
-                <p>{data?.title}</p>
-              </div>
-              <div>
-                <p className="font-semibold opacity-80">
-                  Questions ( {currentIndex + 1} / {data?.question.length} )
+      <Container>
+        <div className="ml-52 mt-32 flex w-[850px] flex-col gap-5">
+          <div className="flex w-full items-center justify-between">
+            <div className="flex w-fit items-center gap-3 rounded-md border border-input px-4 py-3 font-semibold opacity-80 shadow">
+              <p>Course</p>
+              <span> | </span>
+              <p>{data?.title}</p>
+            </div>
+            <div>
+              <p className="font-semibold opacity-80">
+                Questions ( {currentQuesIndex + 1} / {data?.question.length} )
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3 font-semibold opacity-80">
+            <h2 className="flex min-h-[75px] items-center">
+              {currentQuesIndex + 1}. {data?.question[currentQuesIndex]?.title}
+            </h2>
+
+            <div className="grid grid-cols-2 gap-2">
+              {data?.question[currentQuesIndex]?.answers.map((answer) => (
+                <p
+                  key={answer.id}
+                  onClick={() => {
+                    handleAnswerSubmit(
+                      answer.title,
+                      data?.question[currentQuesIndex].id,
+                    );
+                    setSelectedAnswerIndex(answer.id);
+                  }}
+                  className={cn(
+                    "cursor-pointer rounded border border-input px-5 py-4 shadow transition hover:border hover:border-primary/60 hover:bg-zinc-100 dark:hover:bg-neutral-900",
+                    {
+                      "border border-primary/60 bg-zinc-100 dark:bg-neutral-900":
+                        selectedAnswerIndex === answer.id,
+                    },
+                  )}
+                >
+                  {answer.title}
                 </p>
-              </div>
+              ))}
             </div>
-            <div
-              className="flex flex-col gap-3 font-semibold opacity-80"
-              key={data?.question[currentIndex].title}
-            >
-              <h2 className="flex min-h-[75px] items-center">
-                {currentIndex + 1}. {data?.question[currentIndex].title}
-              </h2>
-              <div className="grid grid-cols-2 gap-2">
-                {data?.question[currentIndex].answers.map((answer) => (
-                  <div key={answer.id}>
-                    <p
-                      className={cn(
-                        "cursor-pointer rounded border border-input px-5 py-4 shadow transition hover:border hover:border-primary/60 hover:bg-zinc-100 dark:hover:bg-neutral-900",
-                        {
-                          "border border-primary/60 bg-zinc-100 dark:bg-neutral-900":
-                            selectedAnswerIndex === answer.id,
-                        },
-                      )}
-                      onClick={() => {
-                        handleAnswerSubmit(
-                          data?.question[currentIndex]?.id || "",
-                          data?.id || "",
-                          answer?.title,
-                          answer?.id,
-                        );
-                        setSelectedAnswerIndex(answer.id);
-                      }}
-                    >
-                      {answer.title}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+
             <div className="flex items-center justify-end gap-4">
               <Button
                 className="flex w-fit items-center gap-2"
-                onClick={() => handlePreviousQuestion()}
-                disabled={currentIndex === 0}
+                disabled={
+                  currentQuesIndex === 0 ||
+                  currentQuesIndex === data?.question.length
+                }
+                onClick={() => setCurrentQuesIndex(currentQuesIndex - 1)}
               >
                 <ChevronLeft className="h-5 w-5" /> Previous
               </Button>
               <Button
                 className="flex w-fit items-center gap-2"
-                onClick={() => handleNextQuestion()}
                 disabled={
-                  data?.question.length === currentIndex + 1 ||
-                  !correctAnswers[currentIndex]
+                  !solvedQuestionsIds.includes(
+                    data?.question[currentQuesIndex]?.id || "",
+                  ) || currentQuesIndex + 1 === data?.question?.length
                 }
+                onClick={() => setCurrentQuesIndex(currentQuesIndex + 1)}
               >
                 Next
                 <ChevronRight className="h-5 w-5" />
               </Button>
             </div>
           </div>
-        </Container>
-      </>
+        </div>
+      </Container>
     );
   } else {
     content = (

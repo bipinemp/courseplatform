@@ -7,7 +7,6 @@ import SessionProvider from "@/providers/SessionProvider";
 import { getServerSession } from "next-auth";
 import QueryProvider from "@/providers/QueryProvider";
 import { Toaster } from "react-hot-toast";
-import { ConfettiProvider } from "@/providers/ConfettiProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -28,7 +27,6 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <ConfettiProvider />
         <QueryProvider>
           <SessionProvider session={session}>
             <ThemeProvider
@@ -37,8 +35,8 @@ export default async function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <Toaster position="top-center" reverseOrder={true} />
               <HomePage />
+              <Toaster position="top-center" reverseOrder={true} />
               {children}
             </ThemeProvider>
           </SessionProvider>

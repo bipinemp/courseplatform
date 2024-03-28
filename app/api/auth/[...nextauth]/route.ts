@@ -77,10 +77,6 @@ export const authOptions: NextAuthOptions = {
         session.role = token.role as UserRole;
       }
 
-      if (token.completedCourses) {
-        session.completedCourses = token.completedCourses;
-      }
-
       return session;
     },
     async jwt({ token }) {
@@ -91,7 +87,6 @@ export const authOptions: NextAuthOptions = {
       if (!existingUser) return token;
 
       token.role = existingUser.role;
-      token.completedCourses = existingUser.completedCourses;
 
       return token;
     },

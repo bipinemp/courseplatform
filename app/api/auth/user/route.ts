@@ -19,7 +19,7 @@ export async function GET() {
         emailVerified: true,
         createdAt: true,
         updatedAt: true,
-        completedCourses: true,
+        CourseProgress: true,
         enrollment: {
           select: {
             course: true,

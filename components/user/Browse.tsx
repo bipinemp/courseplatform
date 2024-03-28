@@ -12,12 +12,12 @@ interface BrowseProps {
 const Browse = ({ isDashboard }: BrowseProps) => {
   const { data, isPending } = useGetUserDetails(true);
 
-  const progressCourses = data?.completedCourses?.filter(
-    (course) => parseInt(course.percentage) < 100,
+  const progressCourses = data?.CourseProgress?.filter(
+    (course) => course.progress < 100,
   );
 
-  const completedCourses = data?.completedCourses?.filter(
-    (course) => parseInt(course.percentage) === 100,
+  const completedCourses = data?.CourseProgress?.filter(
+    (course) => course.progress === 100,
   );
 
   return (
