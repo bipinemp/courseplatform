@@ -20,7 +20,7 @@ interface Props {
 const Page = ({ params: { id } }: Props) => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { onOpen, onClose } = useConfettiStore();
+  const { onOpen } = useConfettiStore();
   const { data, isPending } = useGetCourseDetails(id || "");
   const { data: UserDetail } = useGetUserDetails(true);
   const [isCoursePurchased, setIsCoursePurchased] = useState<boolean>(
