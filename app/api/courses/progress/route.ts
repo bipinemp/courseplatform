@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
         data: {
           userId: session?.id || "",
           courseId,
-          progress: progress * 100,
+          progress: progress,
           totalQuestions,
           completedQuestions,
         },

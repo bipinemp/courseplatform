@@ -17,7 +17,7 @@ const CourseCard = ({ data }: Props) => {
 
   const { data: UserDetail } = useGetUserDetails(true);
 
-  const [percentage, setPercentage] = useState<string>("");
+  const [percentage, setPercentage] = useState<number>(0);
   const [isCoursePurchased, setIsCoursePurchased] = useState<boolean>(
     !UserDetail
       ? false
@@ -29,10 +29,10 @@ const CourseCard = ({ data }: Props) => {
   useEffect(() => {
     const courseCompletePercentage = UserDetail?.CourseProgress?.find(
       (progress) => progress.courseId === data?.id,
-    )?.progress.toString();
+    )?.progress;
 
     if (courseCompletePercentage) {
-      setPercentage(courseCompletePercentage.split(".")[0]);
+      setPercentage(courseCompletePercentage);
     }
 
     const isPurchased = UserDetail?.enrollment?.some(
@@ -65,11 +65,11 @@ const CourseCard = ({ data }: Props) => {
 
       <p className="opacity-80">{formattedDescription}</p>
 
-      {!isCoursePurchased && percentage === "0" && (
+      {!isCoursePurchased && percentage === 0 && (
         <p className="font-semibold">Rs. {formattedPrice}</p>
       )}
 
-      {isCoursePurchased && percentage === "0" && (
+      {isCoursePurchased && percentage === 0 && (
         <div className="flex flex-col gap-2 font-semibold text-blue-500">
           <Progress
             value={0}
@@ -79,25 +79,23 @@ const CourseCard = ({ data }: Props) => {
           <p className="pl-1">0% Completed</p>
         </div>
       )}
-      {parseInt(percentage) > 0 && (
+      {percentage > 0 && (
         <div
           className={cn("flex flex-col gap-2 font-semibold", {
-            "text-blue-500": percentage !== "0",
-            "text-green-500": percentage === "100",
+            "text-blue-500": percentage !== 0,
+            "text-green-500": percentage === 100,
           })}
         >
           <Progress
-            value={parseInt(percentage)}
+            value={percentage}
             className="h-[10px]"
             indicatorColor={cn("", {
-              "bg-blue-500": percentage !== "100",
-              "bg-green-500": percentage === "100",
+              "bg-blue-500": percentage !== 100,
+              "bg-green-500": percentage === 100,
             })}
           />
           <p className="pl-1">
-            {percentage === "100"
-              ? "100% completed"
-              : `${percentage}% completed`}
+            {percentage === 100 ? "100% completed" : `${percentage}% completed`}
           </p>
         </div>
       )}

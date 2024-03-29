@@ -89,10 +89,10 @@ const Page = ({ params: { id } }: Props) => {
 
         // Calculate progress based on the number of correct answers
         const progress =
-          data && newSolvedQuestionsIds.length / data?.question?.length;
+          data && (newSolvedQuestionsIds.length / data?.question?.length) * 100;
 
         const sendData = {
-          progress: progress === 1 ? 100 : progress,
+          progress: parseInt(progress?.toFixed(0) || ""),
           courseId: data?.id,
           completedQuestions: newSolvedQuestionsIds,
           totalQuestions: data?.question.length,
