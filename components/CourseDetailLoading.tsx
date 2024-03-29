@@ -1,5 +1,4 @@
 import Container from "./Container";
-import { Loader2 } from "lucide-react";
 
 const CourseDetailLoading = () => {
   return (

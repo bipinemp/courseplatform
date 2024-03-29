@@ -73,6 +73,7 @@ const Page = ({ params: { id } }: Props) => {
     } else {
       toast.success("Correct Answer");
 
+      // whenever the user completes the last question again and again
       if (
         currentQuesIndex + 1 === data?.question.length &&
         solvedQuestionsIds.length === data?.question.length
@@ -86,6 +87,14 @@ const Page = ({ params: { id } }: Props) => {
       ) {
         const newSolvedQuestionsIds = [...solvedQuestionsIds, questionId];
         setSolvedQuestionsIds(newSolvedQuestionsIds);
+
+        // for first completing the last question
+        if (
+          currentQuesIndex + 1 === data?.question.length &&
+          newSolvedQuestionsIds.length === data?.question.length
+        ) {
+          onOpen();
+        }
 
         // Calculate progress based on the number of correct answers
         const progress =
