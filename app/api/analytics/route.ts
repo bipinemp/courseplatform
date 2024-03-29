@@ -34,6 +34,7 @@ export async function GET() {
           },
         },
       },
+      distinct: ["courseId"],
     });
 
     const totalRevenue = chartTransactions.reduce(
