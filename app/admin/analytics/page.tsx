@@ -2,6 +2,7 @@
 
 import { getAdminAnalytics } from "@/apis/apis";
 import Container from "@/components/Container";
+import GlobalLoading from "@/components/GlobalLoading";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import {
@@ -23,13 +24,7 @@ const Page = () => {
   });
 
   if (isPending) {
-    return (
-      <Container>
-        <div className="ml-64 mt-36">
-          <Loader2 className="size-28 animate-spin text-primary" />
-        </div>
-      </Container>
-    );
+    return <GlobalLoading />;
   }
 
   return (
@@ -46,7 +41,7 @@ const Page = () => {
           </div>
         </div>
         <div>
-          <ResponsiveContainer width="100%" height={350}>
+          <ResponsiveContainer width={"100%"} height={350}>
             <BarChart data={data?.barData}>
               <XAxis
                 dataKey={"course"}
@@ -54,6 +49,28 @@ const Page = () => {
                 fontSize={10}
                 fontWeight={700}
                 tickLine={false}
+              />
+              <Tooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className="rounded-lg border bg-background py-2 pl-4 pr-7 shadow-sm">
+                        <div className="flex w-full flex-col gap-2">
+                          <div className="flex w-full flex-col">
+                            <p className="opacity-80">
+                              {payload[0].payload.course}
+                            </p>
+                            <p className="font-bold">
+                              Rs. {payload[0].payload.amount}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  return null;
+                }}
               />
               <YAxis
                 stroke="#888888"
@@ -76,11 +93,35 @@ const Page = () => {
             Course Popularity Metrics
           </h1>
           <ResponsiveContainer width="100%" height={350}>
-            <LineChart data={data?.piechartData}>
-              <XAxis dataKey="name" />
-              <YAxis dataKey="count" />
+            <LineChart
+              data={data?.piechartData}
+              margin={{ top: 20, right: 10, left: 10, bottom: 5 }}
+            >
+              <XAxis dataKey="name" dy={10} />
+              <YAxis dataKey="count" allowDecimals={false} />
               <Legend />
-              <Tooltip />
+              <Tooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className="rounded-lg border bg-background py-2 pl-4 pr-7 shadow-sm">
+                        <div className="flex w-full flex-col gap-2">
+                          <div className="flex w-full flex-col">
+                            <p className="opacity-80">
+                              {payload[0].payload.name}
+                            </p>
+                            <p className="font-bold">
+                              Rs. {payload[0].payload.count}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  return null;
+                }}
+              />
               <Line
                 type="monotone"
                 dataKey="count"

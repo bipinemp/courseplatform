@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { DataTable } from "../courses/_components/DataTable";
 import { columns } from "./_components/columns";
+import GlobalLoading from "@/components/GlobalLoading";
 
 const Page = () => {
   const { data, isPending } = useQuery<Transaction[]>({
@@ -20,13 +21,7 @@ const Page = () => {
   }));
 
   if (isPending) {
-    return (
-      <Container>
-        <div className="ml-64 mt-36">
-          <Loader2 className="size-28 animate-spin text-primary" />
-        </div>
-      </Container>
-    );
+    return <GlobalLoading />;
   }
 
   return (

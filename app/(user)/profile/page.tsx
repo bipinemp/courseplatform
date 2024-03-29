@@ -64,8 +64,8 @@ const Page = () => {
   if (isPending) {
     return (
       <Container>
-        <div className="ml-64 mt-36">
-          <Loader2 className="size-28 animate-spin text-primary" />
+        <div className="ml-[19rem] mt-[13rem]">
+          <Loader2 className="size-20 animate-spin text-primary" />
         </div>
       </Container>
     );

@@ -8,9 +8,11 @@ import { usePathname } from "next/navigation";
 
 const DashboardSidebar = () => {
   const pathname = usePathname();
+  const isAdmin = pathname.startsWith("/admin");
+
   return (
     <div className="flex flex-col">
-      {pathname.startsWith("/admin") ? (
+      {isAdmin ? (
         <Link
           href={"/admin/courses"}
           className="flex h-[99px] items-center justify-center gap-2 border-b border-b-primary/50 px-4"

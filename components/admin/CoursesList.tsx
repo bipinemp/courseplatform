@@ -7,6 +7,7 @@ import { DataTable } from "@/app/admin/courses/_components/DataTable";
 import { columns } from "@/app/admin/courses/_components/columns";
 import { useQuery } from "@tanstack/react-query";
 import { getAllAdminCourses } from "@/apis/apis";
+import GlobalLoading from "../GlobalLoading";
 
 const CoursesList = () => {
   const { data, isPending } = useQuery<Course[] | []>({
@@ -15,11 +16,7 @@ const CoursesList = () => {
   });
 
   if (isPending) {
-    return (
-      <div className="ml-28 mt-14">
-        <Loader2 className="size-28 animate-spin text-primary" />
-      </div>
-    );
+    return <GlobalLoading alreadyMargin={true} />;
   }
 
   return (
