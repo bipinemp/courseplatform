@@ -33,21 +33,6 @@ export async function GET(
         },
         enrollment: true,
       },
-      // select: {
-      //   id: true,
-      //   title: true,
-      //   description: true,
-      //   price: true,
-      //   questionsCount: true,
-      //   question: {
-      //     select: {
-      //       id: true,
-      //       title: true,
-      //       correctAnswer: true,
-      //       answers: true,
-      //     },
-      //   },
-      // },
     });
 
     if (!course) {

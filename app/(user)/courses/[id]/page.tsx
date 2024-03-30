@@ -211,16 +211,16 @@ const Page = ({ params: { id } }: Props) => {
   } else {
     content = (
       <Container>
-        <div className="ml-52 mt-40 flex h-[300px] w-[850px] flex-col items-center gap-5">
+        <div className="mt-32 flex w-full flex-col items-center gap-5 md:pl-52 xl:w-[1100px] 2xl:-ml-20 2xl:w-full 2xl:pl-0">
           <span className="w-fit rounded-full bg-destructive/20 p-3 text-destructive">
             <ShieldAlert className="h-20 w-20" />
           </span>
-          <h1 className="font-black opacity-85">
+          <h1 className="text-center text-[1.2rem] font-black opacity-85 sm:text-[1.4rem] md:text-[2rem]">
             Purchase this course to view the content
           </h1>
           <div className="flex flex-col items-center rounded-md border border-input px-4 py-3 shadow">
             <h2 className="font-semibold">{data?.title}</h2>
-            <p className="opacity-80">{data?.description}</p>
+            <p className="text-center opacity-80">{data?.description}</p>
           </div>
           <Button
             onClick={() =>

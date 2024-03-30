@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "@/lib/prismadb";
-import { getUserById } from "@/actions/user";
+import { getUserByEmail, getUserById } from "@/actions/user";
 import { UserRole } from "@prisma/client";
 
 type CompletedCourse = {
@@ -42,9 +42,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const user = await db.user.findUnique({
-          where: { email: credentials.email },
-        });
+        const user = (await getUserByEmail(credentials?.email || "")) as User;
 
         if (!user) {
           return null;
@@ -82,7 +80,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token }) {
       if (!token.sub) return token;
 
-      const existingUser = (await getUserById(token.sub)) as User;
+      const existingUser = (await getUserById(token.sub || "")) as User;
 
       if (!existingUser) return token;
 
