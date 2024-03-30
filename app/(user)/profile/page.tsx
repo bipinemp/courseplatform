@@ -73,13 +73,13 @@ const Page = () => {
 
   return (
     <Container>
-      <div className="ml-52 mt-32 flex flex-col gap-7">
-        <h1 className="font-bold underline underline-offset-4 opacity-80">
+      <div className="mt-32 flex w-full flex-col items-center gap-7 md:items-start md:pl-52">
+        <h1 className="text-[1.5rem] font-bold underline underline-offset-4 opacity-80 md:text-[2rem]">
           Update Profile
         </h1>
         <form
           onSubmit={handleFormSubmit}
-          className="flex w-[300px] flex-col gap-5"
+          className="vsm:w-[300px] flex w-full flex-col gap-5"
         >
           <div className="flex flex-col gap-1">
             <Label htmlFor="name" className="pl-1">

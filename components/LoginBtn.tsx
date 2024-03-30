@@ -1,10 +1,12 @@
-import { getServerSession } from "next-auth";
+"use client";
+
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
-const LoginBtn = async () => {
-  const session = await getServerSession();
-  if (Boolean(session?.user)) {
+const LoginBtn = () => {
+  const session = useSession();
+  if (Boolean(session?.data?.user)) {
     return;
   }
   return (

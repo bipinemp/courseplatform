@@ -34,7 +34,7 @@ const Page = ({ params: { id } }: Props) => {
   const [currentQuesIndex, setCurrentQuesIndex] = useState<number>(0);
   // for tracking currentIndex question's correct answer
   const [correctAnswer, setCorrectAnswer] = useState(
-    data?.question[currentQuesIndex]?.correctAnswer || "",
+    data?.question?.[currentQuesIndex]?.correctAnswer || "",
   );
 
   const [solvedQuestionsIds, setSolvedQuestionsIds] = useState<string[]>([]);
@@ -137,8 +137,8 @@ const Page = ({ params: { id } }: Props) => {
   if (isCoursePurchased) {
     content = (
       <Container>
-        <div className="ml-52 mt-32 flex w-[850px] flex-col gap-5">
-          <div className="flex w-full items-center justify-between">
+        <div className="mt-32 flex w-full flex-col gap-5 md:pl-52 xl:w-[1100px] 2xl:-ml-20 2xl:w-full 2xl:pl-0">
+          <div className="flex w-full flex-col items-center justify-between gap-2 sm:flex-row">
             <div className="flex w-fit items-center gap-3 rounded-md border border-input px-4 py-3 font-semibold opacity-80 shadow">
               <p>Course</p>
               <span> | </span>
@@ -152,7 +152,7 @@ const Page = ({ params: { id } }: Props) => {
           </div>
 
           <div className="flex flex-col gap-3 font-semibold opacity-80">
-            <h2 className="flex min-h-[75px] items-center">
+            <h2 className="flex min-h-[75px] items-center text-[1.1rem] md:text-[1.5rem]">
               {currentQuesIndex + 1}. {data?.question[currentQuesIndex]?.title}
             </h2>
 
@@ -168,7 +168,7 @@ const Page = ({ params: { id } }: Props) => {
                     setSelectedAnswerIndex(answer.id);
                   }}
                   className={cn(
-                    "cursor-pointer rounded border border-input px-5 py-4 shadow transition hover:border hover:border-primary/60 hover:bg-zinc-100 dark:hover:bg-neutral-900",
+                    "cursor-pointer rounded border border-input px-2 py-4 text-[0.8rem] shadow transition hover:border hover:border-primary/60 hover:bg-zinc-100 dark:hover:bg-neutral-900 sm:px-5 sm:text-[1rem]",
                     {
                       "border border-primary/60 bg-zinc-100 dark:bg-neutral-900":
                         selectedAnswerIndex === answer.id,

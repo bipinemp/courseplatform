@@ -4,6 +4,7 @@ import { SearchIcon } from "lucide-react";
 import { Input } from "./ui/input";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createUrl } from "@/lib/createUrl";
+import { cn } from "@/lib/utils";
 
 const Search = () => {
   const pathname = usePathname();
@@ -35,7 +36,7 @@ const Search = () => {
   }
 
   return (
-    <form onSubmit={searchSubmit} className="relative w-[300px]">
+    <form onSubmit={searchSubmit} className="relative md:w-[300px]">
       <span className="absolute left-3 top-[0.9rem]">
         <SearchIcon className="size-[1.4rem] text-gray-500" />
       </span>
@@ -45,7 +46,7 @@ const Search = () => {
         autoComplete="off"
         name="query"
         placeholder="Search for a course"
-        className="rounded-full bg-accent py-6 pl-10"
+        className={cn("rounded-full bg-accent py-6 pl-10 transition")}
       />
     </form>
   );

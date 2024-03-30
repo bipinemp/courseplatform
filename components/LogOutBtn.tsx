@@ -7,12 +7,14 @@ import { signOut } from "next-auth/react";
 const LogOutBtn = () => {
   return (
     <Button
+      variant={"ghost"}
+      size={"sm"}
       onClick={() => {
         signOut({ callbackUrl: "/" });
       }}
-      className="flex w-full items-center gap-1 px-2 text-lg"
+      className="-ml-[0.42rem] flex w-full justify-start gap-2 py-1"
     >
-      <LogOutIcon className="mr-2 h-[1.2rem] w-[1.2rem]" />
+      <LogOutIcon className="size-4" />
       <span>Logout</span>
     </Button>
   );

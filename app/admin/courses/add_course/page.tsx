@@ -158,7 +158,7 @@ const Page = () => {
                       <div className="relative mb-2 mt-5 flex h-[2px] w-full items-center justify-center gap-3 bg-primary/50">
                         <Button className="flex w-fit items-center gap-1 rounded bg-primary px-4 py-3 text-background">
                           Question <ChevronRight className="h-4 w-4" />{" "}
-                          {index + 1}.
+                          {index + 1}
                         </Button>
                         {index > 0 && (
                           <Button

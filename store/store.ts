@@ -31,3 +31,15 @@ export const useConfettiStore = create<ConfettiStore>((set) => ({
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }));
+
+type SearchStore = {
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+};
+
+export const useSearchStore = create<SearchStore>((set) => ({
+  isOpen: false,
+  onOpen: () => set({ isOpen: true }),
+  onClose: () => set({ isOpen: false }),
+}));

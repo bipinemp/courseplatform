@@ -1,11 +1,12 @@
-import { getServerSession } from "next-auth";
+"use client";
+
 import AdminMode from "./AdminMode";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { useSession } from "next-auth/react";
 
-const AdminModeWrapper = async () => {
-  const session = await getServerSession(authOptions);
+const AdminModeWrapper = () => {
+  const session = useSession();
 
-  if (session?.role !== "ADMIN") {
+  if (session?.data?.role !== "ADMIN") {
     return;
   }
 

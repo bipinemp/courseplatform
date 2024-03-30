@@ -51,9 +51,11 @@ const CourseCard = ({ data }: Props) => {
   return (
     <div
       onClick={() => router.push(`/courses/${id}`)}
-      className="flex h-[250px] w-[320px] cursor-pointer flex-col justify-between rounded-md border border-input px-5 py-4 shadow-md transition hover:border-primary hover:bg-zinc-100 dark:hover:bg-neutral-900"
+      className="flex h-[250px] cursor-pointer flex-col justify-between rounded-md border border-input px-5 py-4 shadow-md transition hover:border-primary hover:bg-zinc-100 dark:hover:bg-neutral-900"
     >
-      <h2 className="font-semibold underline underline-offset-4">{title}</h2>
+      <h2 className="text-[1.2rem] font-semibold underline underline-offset-4 lg:text-[1.5rem]">
+        {title}
+      </h2>
       <div className="flex items-center gap-2">
         <span className="rounded-full bg-primary/20 p-2">
           <BookOpen className="h-5 w-5" />
@@ -63,7 +65,9 @@ const CourseCard = ({ data }: Props) => {
         </p>
       </div>
 
-      <p className="opacity-80">{formattedDescription}</p>
+      <p className="text-[0.9rem] opacity-80 lg:text-[1rem]">
+        {formattedDescription}
+      </p>
 
       {!isCoursePurchased && percentage === 0 && (
         <p className="font-semibold">Rs. {formattedPrice}</p>

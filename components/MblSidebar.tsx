@@ -2,16 +2,16 @@
 
 import { BookType } from "lucide-react";
 import React from "react";
-import DashSidebarLinks from "./DashSidebarLinks";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import MblSidebarLinks from "./MblSidebarLinks";
 
-const DashboardSidebar = () => {
+const MblSidebar = () => {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
 
   return (
-    <div className="flex flex-col">
+    <div className="flex w-full flex-col">
       {isAdmin ? (
         <Link
           href={"/admin/courses"}
@@ -34,9 +34,9 @@ const DashboardSidebar = () => {
         </Link>
       )}
 
-      <DashSidebarLinks />
+      <MblSidebarLinks />
     </div>
   );
 };
 
-export default DashboardSidebar;
+export default MblSidebar;
