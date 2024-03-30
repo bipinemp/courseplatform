@@ -1,6 +1,5 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import { db } from "@/lib/prismadb";
-import { TCourse } from "@/schemas/courseType";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 

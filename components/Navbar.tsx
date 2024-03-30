@@ -8,22 +8,19 @@ import { ConfettiProvider } from "@/providers/ConfettiProvider";
 import { useSearchStore } from "@/store/store";
 import MblSearch from "./MblSearch";
 import { cn } from "@/lib/utils";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Menu, SquareMenu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
 import MblSidebar from "./MblSidebar";
 
-const Navbar = () => {
+interface Props {
+  user?: any;
+  role?: "ADMIN" | "USER";
+}
+const Navbar = ({ user, role }: Props) => {
   const { isOpen } = useSearchStore();
   return (
     <nav className="mx-auto flex min-h-[99px] w-full max-w-[1920px] items-center justify-between gap-5 border-b border-b-primary/50 bg-zinc-50 px-4 py-6 dark:bg-background lg:px-10">
-      <div className="vsm:flex vsm:items-center hidden gap-2">
+      <div className="hidden gap-2 vsm:flex vsm:items-center">
         {!isOpen && (
           <Sheet>
             <SheetTrigger className="block md:hidden">
@@ -39,7 +36,7 @@ const Navbar = () => {
         <Search />
       </div>
       <div
-        className={cn("vsm:hidden relative flex items-center gap-2", {
+        className={cn("relative flex items-center gap-2 vsm:hidden", {
           "w-full": isOpen,
         })}
       >
@@ -62,7 +59,7 @@ const Navbar = () => {
         {!isOpen && (
           <>
             <LoginBtn />
-            <ProfileDropDown />
+            <ProfileDropDown user={user} role={role} />
             <DarkLightMode />
           </>
         )}

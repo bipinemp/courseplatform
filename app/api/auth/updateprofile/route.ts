@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/prismadb";
 

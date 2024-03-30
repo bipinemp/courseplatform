@@ -266,3 +266,17 @@
 // };
 
 // export default Page;
+
+// next types app/api/auth/[...nextauth]/route ts
+// Type error: Type 'OmitWithTag<typeof import("D:/NextJs/courseplatform/app/api/auth/[...nextauth]/route"), "GET" | "DELETE" | "HEAD" | "OPTIONS" | "POST" | "PUT" | "PATCH" | "dynamic" | "config" | "generateStaticParams" | ... 5 more ... | "maxDuration", "">' does not satisfy the constraint '{ [x: string]: never; }'.
+//   Property 'authOptions' is incompatible with index signature.
+//     Type 'AuthOptions' is not assignable to type 'never'.
+
+//    6 |
+//    7 | // Check that the entry is a valid entry
+// >  8 | checkFields<Diff<{
+//      |             ^
+//    9 |   GET?: Function
+//   10 |   HEAD?: Function
+//   11 |   OPTIONS?: Function
+//    Linting and checking validity of types  ...

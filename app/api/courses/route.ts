@@ -1,6 +1,6 @@
 import { CourseSchema } from "@/schemas/courseType";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/prismadb";
 import { ZodError } from "zod";

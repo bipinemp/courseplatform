@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { useConfettiStore } from "@/store/store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, Loader2, ShieldAlert } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -53,8 +53,12 @@ const Page = ({ params: { id } }: Props) => {
   });
 
   const handleCoursePayment = (name: string, price: number, id: string) => {
-    const data = { name, price, id };
-    EnrollCourse(data);
+    if (!UserDetail?.id) {
+      router.push("/login");
+    } else {
+      const data = { name, price, id };
+      EnrollCourse(data);
+    }
   };
 
   const { mutate } = useMutation({
@@ -220,7 +224,9 @@ const Page = ({ params: { id } }: Props) => {
           </h1>
           <div className="flex flex-col items-center rounded-md border border-input px-4 py-3 shadow">
             <h2 className="font-semibold">{data?.title}</h2>
-            <p className="text-center opacity-80">{data?.description}</p>
+            <p className="text-center opacity-80">
+              {data?.description.substring(0, 20) + "..."}
+            </p>
           </div>
           <Button
             onClick={() =>

@@ -1,12 +1,14 @@
 "use client";
 
 import AdminMode from "./AdminMode";
-import { useSession } from "next-auth/react";
 
-const AdminModeWrapper = () => {
-  const session = useSession();
+interface Props {
+  user?: any;
+  role?: "ADMIN" | "USER";
+}
 
-  if (session?.data?.role !== "ADMIN") {
+const AdminModeWrapper = ({ user, role }: Props) => {
+  if (role !== "ADMIN") {
     return;
   }
 

@@ -1,5 +1,3 @@
-"use client";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,18 +5,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { User } from "lucide-react";
-import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import LogOutBtn from "./LogOutBtn";
 import AdminModeWrapper from "./admin/AdminModeWrapper";
 import { Button } from "./ui/button";
-import { useSession } from "next-auth/react";
 
-const ProfileDropDown = () => {
-  const session = useSession();
+interface Props {
+  user?: any;
+  role?: "ADMIN" | "USER";
+}
 
-  if (!Boolean(session?.data?.user)) {
+const ProfileDropDown = ({ user, role }: Props) => {
+  if (!!!user) {
     return;
   }
 
@@ -26,16 +25,16 @@ const ProfileDropDown = () => {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <div className="relative h-[40px] w-[40px] cursor-pointer">
-          {session?.data?.user?.image ? (
+          {user?.image ? (
             <Image
               fill
-              src={session?.data.user.image}
+              src={user?.image}
               alt=""
               className="h-[40px] w-[40px] rounded-full bg-gray-400"
             />
           ) : (
             <span className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-primary text-2xl text-zinc-50">
-              {session?.data?.user?.name?.charAt(0)}
+              {user?.name?.charAt(0)}
             </span>
           )}
         </div>
@@ -59,7 +58,7 @@ const ProfileDropDown = () => {
         </DropdownMenuItem>
 
         <DropdownMenuItem className="hover:bg-none">
-          <AdminModeWrapper />
+          <AdminModeWrapper role={role} />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
