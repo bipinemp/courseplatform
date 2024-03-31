@@ -4,7 +4,7 @@ import { getAdminAnalytics } from "@/apis/apis";
 import Container from "@/components/Container";
 import GlobalLoading from "@/components/GlobalLoading";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { useTheme } from "next-themes";
 import {
   Bar,
   BarChart,
@@ -18,6 +18,7 @@ import {
 } from "recharts";
 
 const Page = () => {
+  const { theme } = useTheme();
   const { data, isPending } = useQuery<TAnalytics>({
     queryKey: ["analytics"],
     queryFn: getAdminAnalytics,
@@ -51,6 +52,7 @@ const Page = () => {
                 tickLine={false}
               />
               <Tooltip
+                cursor={{ fill: theme == "light" ? "#f5f5f5" : "#171717" }}
                 content={({ active, payload }) => {
                   if (active && payload && payload.length) {
                     return (
