@@ -111,7 +111,10 @@ const Page = () => {
                               {payload[0].payload.name}
                             </p>
                             <p className="font-bold">
-                              Rs. {payload[0].payload.count}
+                              {payload[0].payload.count}
+                              {payload[0].payload.count > 1
+                                ? " Users"
+                                : " User"}
                             </p>
                           </div>
                         </div>
