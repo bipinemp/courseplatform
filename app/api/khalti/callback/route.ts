@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.redirect(
-      `http://localhost:3000/courses/${transaction?.courseId}`,
+      `${process.env.BASE_URL}/courses/${transaction?.courseId}`,
     );
   } catch (error: any) {
     console.log(error);
