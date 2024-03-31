@@ -28,20 +28,20 @@ const CoursesList = ({ isDashboard }: CourseListProps) => {
     return isDashboard ? <UserDashboardLoading /> : <UserBrowseLoading />;
   }
 
-  if (!isDashboard && data?.length === 0) {
+  if (!isDashboard && data?.length === 0 && !data) {
     return (
       <h1 className="pl-4 font-semibold text-red-500">No Courses Available</h1>
     );
   }
 
-  if (isDashboard && UserDetail?.enrollment?.length === 0) {
+  if (isDashboard && UserDetail?.enrollment?.length === 0 && !UserDetail) {
     return (
       <h1 className="pl-4 font-semibold text-red-500">No Courses Purchased</h1>
     );
   }
 
   return (
-    <div className="ssm:grid-cols-2 grid w-full grid-cols-1 gap-x-3 gap-y-6 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+    <div className="grid w-full grid-cols-1 gap-x-3 gap-y-6 ssm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
       {isDashboard ? (
         <>
           {UserDetail?.enrollment?.map((course) => (
