@@ -24,8 +24,7 @@ const Page: React.FC = () => {
     try {
       await signIn("credentials", {
         ...loginInfo,
-        redirect: true,
-        callbackUrl: "/",
+        redirect: false,
       })
         .then((data) => {
           if (data?.error === "CredentialsSignin") {
@@ -33,7 +32,9 @@ const Page: React.FC = () => {
           }
           if (data?.ok) {
             router.refresh();
+            router.push("/");
             toast.success("Login Success");
+            window.location.reload();
           }
         })
         .catch(() => toast.error("Something went wrong, Try again Later"));

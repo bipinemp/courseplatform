@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   if (userExists) {
     return NextResponse.json(
       { message: "User Already Exists" },
-      { status: 400 },
+      { status: 401 },
     );
   }
 
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(
-      { message: "User Registered Successfully" },
+      { message: "User Registered Successfully", status: 200 },
       { status: 201 },
     );
   } catch (error) {

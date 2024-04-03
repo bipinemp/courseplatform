@@ -21,9 +21,14 @@ const Page: React.FC = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: registerUser,
-    onSuccess: () => {
-      toast.success("Register Success");
-      router.push("/login");
+    onSuccess: (data) => {
+      if (data?.response?.status && data?.response.status === 401) {
+        toast.error("Email Already Used");
+      }
+      if (data?.status === 200) {
+        toast.success("Register Success");
+        router.push("/login");
+      }
     },
     onError(error) {
       toast.error(error.message);

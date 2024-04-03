@@ -57,9 +57,11 @@ const ProfileDropDown = ({ user, role }: Props) => {
           <LogOutBtn />
         </DropdownMenuItem>
 
-        <DropdownMenuItem className="hover:bg-none">
-          <AdminModeWrapper role={role} />
-        </DropdownMenuItem>
+        {role === "ADMIN" && (
+          <DropdownMenuItem className="hover:bg-none">
+            <AdminModeWrapper role={role} />
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -3,11 +3,12 @@ import { NextResponse } from "next/server";
 
 export default withAuth(
   function middleware(req: NextRequestWithAuth) {
+    const loginRoutes = ["/login", "/register"];
+
     if (
       req.nextUrl.pathname.startsWith("/admin") &&
       req.nextauth.token?.role !== "ADMIN"
     ) {
-      console.log("denied");
       return NextResponse.redirect(new URL("/", req.url));
     }
   },
@@ -18,4 +19,6 @@ export default withAuth(
   },
 );
 
-export const config = { matcher: ["/admin/:path*", "/dashboard"] };
+export const config = {
+  matcher: ["/admin/:path*", "/dashboard"],
+};
