@@ -32,9 +32,9 @@ const Page: React.FC = () => {
           }
           if (data?.ok) {
             router.refresh();
+            // window.location.reload();
             router.push("/");
             toast.success("Login Success");
-            window.location.reload();
           }
         })
         .catch(() => toast.error("Something went wrong, Try again Later"));

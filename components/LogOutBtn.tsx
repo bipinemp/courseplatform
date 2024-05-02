@@ -10,7 +10,7 @@ const LogOutBtn = () => {
       variant={"ghost"}
       size={"sm"}
       onClick={() => {
-        signOut({ callbackUrl: "/" });
+        signOut();
       }}
       className="-ml-[0.42rem] flex w-full justify-start gap-2 py-1"
     >

@@ -140,6 +140,8 @@ model transaction {
   status          Status @default(CREATED)
   transactionCode String
 
+  test String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
 }
