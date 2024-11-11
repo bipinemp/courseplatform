@@ -15,7 +15,7 @@ const AdminMode = () => {
       {isAdminRoute ? (
         <Link href={"/"}>
           <Button
-            className="-ml-[0.42rem] flex items-center gap-2 font-semibold text-destructive hover:text-destructive dark:text-red-500"
+            className="-pl-[0.42rem] flex items-center gap-2 font-semibold text-destructive hover:text-destructive dark:text-red-500"
             variant={"ghost"}
             size={"sm"}
           >
@@ -23,7 +23,7 @@ const AdminMode = () => {
           </Button>
         </Link>
       ) : (
-        <Link href={"/admin/courses"}>
+        <Link href={"/admin/courses"} className="w-full">
           <Button
             className="font-semibold text-destructive hover:text-destructive dark:text-red-500"
             variant={"ghost"}

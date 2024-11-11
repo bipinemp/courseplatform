@@ -75,7 +75,6 @@ export async function GET(req: NextRequest) {
       `${process.env.BASE_URL}/courses/${transaction?.courseId}`,
     );
   } catch (error: any) {
-    console.log(error);
     return NextResponse.json(
       { message: "Something went wrong, Try again Later" },
       { status: 500 },

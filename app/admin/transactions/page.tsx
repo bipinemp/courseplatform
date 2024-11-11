@@ -26,7 +26,7 @@ const Page = () => {
 
   return (
     <Container>
-      <div className="ml-52 mt-32 flex flex-col gap-7">
+      <div className="mt-32 flex flex-col gap-7 md:ml-52">
         <div className="flex items-center justify-between">
           <h1 className="font-bold underline underline-offset-4 opacity-85">
             Transactions

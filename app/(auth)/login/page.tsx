@@ -39,7 +39,6 @@ const Page: React.FC = () => {
         })
         .catch(() => toast.error("Something went wrong, Try again Later"));
     } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false);
     }

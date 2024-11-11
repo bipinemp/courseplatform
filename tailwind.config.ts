@@ -12,6 +12,7 @@ const config = {
   theme: {
     screens: {
       vsm: "400px",
+      xssm: "500px",
       ssm: "600px",
       sm: "640px",
       md: "768px",

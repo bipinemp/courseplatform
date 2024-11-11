@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MblSidebarLinks from "./MblSidebarLinks";
 
-const MblSidebar = () => {
+const MblSidebar = ({ onClose }: { onClose: () => void }) => {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
 
@@ -34,7 +34,7 @@ const MblSidebar = () => {
         </Link>
       )}
 
-      <MblSidebarLinks />
+      <MblSidebarLinks onClose={onClose} />
     </div>
   );
 };

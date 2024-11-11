@@ -17,22 +17,26 @@ interface Props {
   role?: "ADMIN" | "USER";
 }
 const Navbar = ({ user, role }: Props) => {
-  const { isOpen } = useSearchStore();
+  const { isOpen, onClose, onOpen } = useSearchStore();
+
   return (
     <nav className="mx-auto flex min-h-[99px] w-full max-w-[1920px] items-center justify-between gap-5 border-b border-b-primary/50 bg-zinc-50 px-4 py-6 dark:bg-background lg:px-10">
       <div className="hidden gap-2 vsm:flex vsm:items-center">
-        {!isOpen && (
-          <Sheet>
+        <Sheet
+          open={isOpen}
+          onOpenChange={(open) => (open ? onOpen() : onClose())}
+        >
+          {!isOpen && (
             <SheetTrigger className="block md:hidden">
               <div className="relative cursor-pointer rounded-full border-[2px] border-input p-3 transition hover:bg-zinc-100 hover:dark:bg-neutral-900">
                 <Menu className="size-[1.4rem] text-gray-500" strokeWidth={2} />
               </div>
             </SheetTrigger>
-            <SheetContent side={"left"} className="p-0">
-              <MblSidebar />
-            </SheetContent>
-          </Sheet>
-        )}
+          )}
+          <SheetContent side={"left"} className="p-0">
+            <MblSidebar onClose={onClose} />
+          </SheetContent>
+        </Sheet>
         <Search />
       </div>
       <div
@@ -40,18 +44,21 @@ const Navbar = ({ user, role }: Props) => {
           "w-full": isOpen,
         })}
       >
-        {!isOpen && (
-          <Sheet>
+        <Sheet
+          open={isOpen}
+          onOpenChange={(open) => (open ? onOpen() : onClose())}
+        >
+          {!isOpen && (
             <SheetTrigger className="block md:hidden">
               <div className="relative cursor-pointer rounded-full border-[2px] border-input p-3 transition hover:bg-zinc-100 hover:dark:bg-neutral-900">
                 <Menu className="size-[1.4rem] text-gray-500" strokeWidth={2} />
               </div>
             </SheetTrigger>
-            <SheetContent side={"left"} className="p-0">
-              <MblSidebar />
-            </SheetContent>
-          </Sheet>
-        )}
+          )}
+          <SheetContent side={"left"} className="p-0">
+            <MblSidebar onClose={onClose} />
+          </SheetContent>
+        </Sheet>
         <MblSearch />
       </div>
       <div className="flex items-center gap-4">

@@ -10,7 +10,7 @@ interface BrowseProps {
 }
 
 const Browse = ({ isDashboard }: BrowseProps) => {
-  const { data, isPending } = useGetUserDetails(true);
+  const { data, isPending, isFetched } = useGetUserDetails(true);
 
   const progressCourses = data?.CourseProgress?.filter(
     (course) => course.progress < 100,
@@ -62,6 +62,7 @@ const Browse = ({ isDashboard }: BrowseProps) => {
           )}
         </div>
       )}
+
       <CoursesList isDashboard={isDashboard} />
     </div>
   );

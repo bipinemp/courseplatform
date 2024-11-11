@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-const MblSidebarLinks = () => {
+const MblSidebarLinks = ({ onClose }: { onClose: () => void }) => {
   const userRoutes = [
     { icon: Compass, label: "Browse", href: "/" },
     { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
@@ -47,6 +47,7 @@ const MblSidebarLinks = () => {
         <Link
           key={i}
           href={route.href}
+          onClick={onClose}
           className={cn(
             "flex items-center gap-3 px-4 py-4 transition hover:bg-primary/10",
             {

@@ -57,7 +57,7 @@
     @apply bg-background text-foreground;
   }
   h1 {
-    @apply text-[2rem];
+    @apply xssm:text-[2rem] text-[1.3rem];
   }
   h2 {
     @apply text-[1.5rem];

@@ -40,10 +40,10 @@ const ProfileDropDown = ({ user, role }: Props) => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[150px]">
-        <DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href={"/profile"}>
             <Button
-              className="-ml-[0.42rem] flex items-center gap-2"
+              className="-ml-[0.9rem] flex items-center gap-2"
               variant={"ghost"}
               size={"sm"}
             >
@@ -53,12 +53,12 @@ const ProfileDropDown = ({ user, role }: Props) => {
           </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuItem className="hover:bg-none">
+        <DropdownMenuItem asChild className="hover:bg-none">
           <LogOutBtn />
         </DropdownMenuItem>
 
         {role === "ADMIN" && (
-          <DropdownMenuItem className="hover:bg-none">
+          <DropdownMenuItem asChild className="hover:bg-none">
             <AdminModeWrapper role={role} />
           </DropdownMenuItem>
         )}
